@@ -17,7 +17,10 @@ export function TopNav() {
   const isLoading = session.status === "loading";
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
-
+  const closeAll = () => {
+    setDropdownVisible(false);
+    setMenuVisible(false);
+  };
   const handleClickOutside = (event: MouseEvent) => {
     if (
       dropdownRef.current &&
@@ -58,7 +61,7 @@ export function TopNav() {
               </button>
               {dropdownVisible && (
                 <div className="absolute right-0 mt-2 w-auto rounded border border-gray-200 bg-white text-black shadow-lg">
-                  <div className="flex w-full flex-col">
+                  <div onClick={closeAll} className="flex w-full flex-col">
                     <div className="p-1 text-center text-base font-bold md:p-2 md:text-lg xl:p-3  xl:text-xl">
                       {user.name}
                     </div>
@@ -93,7 +96,7 @@ export function TopNav() {
               </button>
               {menuVisible && (
                 <div className="absolute right-0 mt-2 w-auto rounded border border-gray-200 bg-white text-black shadow-lg">
-                  <div className="flex w-40 flex-col">
+                  <div onClick={closeAll} className="flex w-40 flex-col">
                     <Link href="/join">
                       <div className="block w-full p-3 text-left hover:bg-gray-100">
                         Join Our Network
@@ -121,12 +124,12 @@ export function TopNav() {
               </button>
               {menuVisible && (
                 <div className="absolute right-0 mt-2 w-auto rounded border border-gray-200 bg-white text-black shadow-lg">
-                  <div className="flex w-40 flex-col">
+                  <div onClick={closeAll} className="flex w-40 flex-col">
                     <div className="p-1 text-center text-lg font-bold md:p-2 md:text-lg  xl:p-3 xl:text-xl">
                       {user.name}
                     </div>
                     <div className="w-full border-b"></div>
-                    <Link href={`/profile/${user.id}`} passHref>
+                    <Link href={`/profile/${user.id}`}>
                       <div className="block w-full p-3 text-left hover:bg-gray-100">
                         Full Profile
                       </div>
