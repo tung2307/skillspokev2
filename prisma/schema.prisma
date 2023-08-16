@@ -11,10 +11,35 @@ datasource db {
     relationMode = "prisma"
 }
 
-model Example {
-    id        String   @id @default(cuid())
+model Store {
+    id           String         @id @default(uuid())
+    userId       String         @default("none")
+    name         String
+    remote       Boolean        @default(false)
+    phone        String?
+    address1     String?
+    address2     String?
+    ward         String?
+    district     String
+    city         String
+    country      String         @default("việt nam")
+    createdAt    DateTime       @default(now())
+    updatedAt    DateTime       @updatedAt
+    user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+    storePicture StorePicture[]
+
+    @@index([userId])
+}
+
+model StorePicture {
+    id        String   @id @default(uuid())
+    storeId   String
+    fileUrl   String
+    fileName  String
     createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    store     Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+    @@index([storeId])
 }
 
 // Necessary for Next auth
@@ -53,8 +78,27 @@ model User {
     email         String?   @unique
     emailVerified DateTime?
     image         String?
+    role          Role      @default(CUSTOMER)
     accounts      Account[]
     sessions      Session[]
+
+    // Non- Next auth
+    profile Profile[]
+    stores  Store[]
+}
+
+model Profile {
+    id     String @id @default(uuid())
+    bio    String
+    userId String
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+}
+
+enum Role {
+    CUSTOMER
+    PRO
 }
 
 model VerificationToken {
