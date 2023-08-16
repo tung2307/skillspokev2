@@ -3,9 +3,16 @@ import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
 import { ProfileImage } from "./ProfileImage";
+
 export function TopNav() {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const session = useSession();
+  //     {
+  //     required: true,
+  //     onUnauthenticated() {
+  //       redirect("/");
+  //     },
+  //   } Check: https://www.youtube.com/watch?v=Eh3EpwqT4cM
   const user = session.data?.user;
   const isLoading = session.status === "loading";
   return (
