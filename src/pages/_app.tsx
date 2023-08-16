@@ -19,10 +19,13 @@ const MyApp: AppType<{ session: Session | null }> = ({
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <TopNav />
-      <div className="container mx-auto flex flex-col sm:pr-4">
-        <div className="min-h-screen flex-grow border-x">
-          <Component {...pageProps} />
+
+      <div className="flex flex-col ">
+        <TopNav />
+        <div className="mx-auto w-full sm:pr-4">
+          <div className="min-h-screen flex-grow">
+            <Component {...pageProps} />
+          </div>
         </div>
       </div>
     </SessionProvider>
