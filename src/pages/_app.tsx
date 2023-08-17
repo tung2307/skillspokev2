@@ -22,7 +22,7 @@ const MyApp: AppType<{ session: Session | null }> = ({
 
       <div className="flex flex-col ">
         <TopNav />
-        <div className="mx-auto w-full sm:pr-4">
+        <div className="mx-auto w-full">
           <div className="min-h-screen flex-grow">
             <Component {...pageProps} />
           </div>

@@ -2,6 +2,7 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ProfileImage } from "./ProfileImage";
+import Search from "./Search";
 
 export function TopNav() {
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -43,9 +44,15 @@ export function TopNav() {
   return (
     <>
       <div className="sticky top-0 z-10 flex h-20 items-center justify-between bg-[#4682B4] px-4">
-        <div className="text-4xl font-bold text-white ">
-          <Link href="/">SKILLSPOKE</Link>
+        <div className="flex justify-start">
+          <div className="text-4xl font-bold text-white ">
+            <Link href="/">SKILLSPOKE</Link>
+          </div>
+          <div>
+            <Search className=""/>
+          </div>
         </div>
+
         <div className="relative hidden items-center justify-start gap-2 whitespace-nowrap text-sm text-white md:flex md:gap-5 md:text-base xl:flex xl:gap-10 xl:text-lg">
           <Link href="/join">Join Our Network</Link>
           <Link href="/discover">Discover</Link>
