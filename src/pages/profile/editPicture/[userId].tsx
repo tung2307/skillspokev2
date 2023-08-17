@@ -6,7 +6,7 @@ export default function Page() {
   const userId =
     typeof router.query.userId === "string" ? router.query.userId : "";
   function handleClick() {
-    router.push("/profile/" + userId);
+    void router.push("/profile/" + userId);
   }
   return (
     <>
