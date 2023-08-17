@@ -1,15 +1,15 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { ProfileImage } from "~/components/ProfileImage";
-import { redirect } from "next/navigation";
 import Link from "next/link";
-const profilePage = () => {
+const ProfilePage = () => {
   const router = useRouter();
-  const { userId } = router.query; // This will extract the id from the URL
+  const userId =
+    typeof router.query.userId === "string" ? router.query.userId : ""; // Type assertion here
   const session = useSession({
     required: true,
     onUnauthenticated() {
-      router.push(`/api/auth/signin?callbackUrl=/profile/${userId}`);
+      void router.push(`/api/auth/signin?callbackUrl=/profile/${userId}`);
     },
   });
 
@@ -39,4 +39,4 @@ const profilePage = () => {
   );
 };
 
-export default profilePage;
+export default ProfilePage;
