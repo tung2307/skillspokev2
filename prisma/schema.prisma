@@ -53,10 +53,10 @@ model Email {
 }
 
 model User {
-    id      String @id @default(cuid())
-    clerkId String
+    id      String  @id @default(cuid())
+    clerkId String?
     name    String
-    role    Role   @default(CUSTOMER)
+    role    Role    @default(CUSTOMER)
 
     // Non- Next auth
     profile Profile[]
