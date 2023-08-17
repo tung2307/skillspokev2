@@ -1,4 +1,4 @@
-import { signIn, signOut, useSession } from "next-auth/react";
+import { SignInButton, SignOutButton, useAuth, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ProfileImage } from "./ProfileImage";
@@ -6,16 +6,10 @@ import Search from "./Search";
 
 export function TopNav() {
   const [dropdownVisible, setDropdownVisible] = useState(false);
-  const session = useSession();
-  //     {
-  //     required: true,
-  //     onUnauthenticated() {
-  //       redirect("/");
-  //     },
-  //   } Check: https://www.youtube.com/watch?v=Eh3EpwqT4cM
   const [menuVisible, setMenuVisible] = useState(false);
-  const user = session.data?.user;
-  const isLoading = session.status === "loading";
+  const user = useUser();
+  const auth = useAuth();
+
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const closeAll = () => {
@@ -49,7 +43,7 @@ export function TopNav() {
             <Link href="/">SKILLSPOKE</Link>
           </div>
           <div>
-            <Search className=""/>
+            <Search className="" />
           </div>
         </div>
 
@@ -57,36 +51,33 @@ export function TopNav() {
           <Link href="/join">Join Our Network</Link>
           <Link href="/discover">Discover</Link>
 
-          {isLoading ? (
+          {!user.isLoaded ? (
             <div></div> // Loading state
-          ) : user == null ? (
-            <button onClick={() => void signIn()}>Log In</button>
+          ) : user.user == null ? (
+            <SignInButton />
           ) : (
             <div className="relative" ref={dropdownRef}>
               <button onClick={() => setDropdownVisible(!dropdownVisible)}>
                 <ProfileImage
-                  src={session.data?.user.image}
-                  className="h-12 w-12"
+                  src={user.user?.imageUrl}
+                  className="h-[50px] w-[50px]"
                 />
               </button>
               {dropdownVisible && (
                 <div className="absolute right-0 mt-2 w-auto rounded border border-gray-200 bg-white text-black shadow-lg">
                   <div onClick={closeAll} className="flex w-full flex-col">
                     <div className="p-1 text-center text-base font-bold md:p-2 md:text-lg xl:p-3  xl:text-xl">
-                      {user.name}
+                      {user.user.fullName}
                     </div>
                     <div className="w-full border-b"></div>
-                    <Link href={`/profile/${user.id}`} passHref>
+                    <Link href={`/profile/${auth.userId}`} passHref>
                       <div className="block w-full p-3 text-left hover:bg-gray-100">
                         Full Profile
                       </div>
                     </Link>
-                    <button
-                      onClick={() => void signOut()}
-                      className="w-full p-3 text-left hover:bg-gray-100"
-                    >
-                      Log Out
-                    </button>
+                    <div className="block w-full p-3 text-left hover:bg-gray-100">
+                      <SignOutButton />
+                    </div>
                   </div>
                 </div>
               )}
@@ -96,7 +87,7 @@ export function TopNav() {
         {/* After md the above div will be hidden and below div show up as a dropdown */}
 
         <div className="flex md:hidden xl:hidden">
-          {user == null ? (
+          {user.user == null ? (
             <div className="relative" ref={menuRef}>
               <button
                 onClick={() => setMenuVisible(!menuVisible)}
@@ -114,15 +105,10 @@ export function TopNav() {
                     </Link>
                     <Link href="/discover">
                       <div className="block w-full p-3 text-left hover:bg-gray-100">
-                        Discover{" "}
+                        Discover
                       </div>
                     </Link>
-                    <button
-                      onClick={() => void signIn()}
-                      className="w-full p-3 text-left hover:bg-gray-100"
-                    >
-                      Log In
-                    </button>
+                    <SignInButton />
                   </div>
                 </div>
               )}
@@ -131,18 +117,18 @@ export function TopNav() {
             <div className="relative" ref={menuRef}>
               <button onClick={() => setMenuVisible(!menuVisible)}>
                 <ProfileImage
-                  src={session.data?.user.image}
-                  className="h-12 w-12"
+                  src={user.user?.imageUrl}
+                  className="h-[50px] w-[50px]"
                 />
               </button>
               {menuVisible && (
                 <div className="absolute right-0 mt-2 w-auto rounded border border-gray-200 bg-white text-black shadow-lg">
                   <div onClick={closeAll} className="flex w-40 flex-col">
                     <div className="p-1 text-center text-lg font-bold md:p-2 md:text-lg  xl:p-3 xl:text-xl">
-                      {user.name}
+                      {user.user.fullName}
                     </div>
                     <div className="w-full border-b"></div>
-                    <Link href={`/profile/${user.id}`}>
+                    <Link href={`/profile/${auth.userId}`}>
                       <div className="block w-full p-3 text-left hover:bg-gray-100">
                         Full Profile
                       </div>
@@ -154,15 +140,12 @@ export function TopNav() {
                     </Link>
                     <Link href="/discover">
                       <div className="block w-full p-3 text-left hover:bg-gray-100">
-                        Discover{" "}
+                        Discover
                       </div>
                     </Link>
-                    <button
-                      onClick={() => void signOut()}
-                      className="w-full p-3 text-left hover:bg-gray-100"
-                    >
-                      Log Out
-                    </button>
+                    <div className="block w-full p-3 text-left hover:bg-gray-100">
+                      <SignOutButton />
+                    </div>
                   </div>
                 </div>
               )}

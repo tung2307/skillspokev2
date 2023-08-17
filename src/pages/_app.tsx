@@ -1,22 +1,16 @@
-import { type Session } from "next-auth";
-import { SessionProvider } from "next-auth/react";
-import { type AppType } from "next/app";
 import { api } from "~/utils/api";
 import "~/styles/globals.css";
 import Head from "next/head";
 import { TopNav } from "~/components/TopNav";
-const MyApp: AppType<{ session: Session | null }> = ({
-  Component,
-  pageProps: { session, ...pageProps },
-}) => {
+import { ClerkProvider } from "@clerk/nextjs";
+import type { AppProps } from "next/app";
+
+function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <SessionProvider session={session}>
+    <ClerkProvider {...pageProps}>
       <Head>
         <title>Skillspoke</title>
-        <meta
-          name="description"
-          content="This is a Twitter clone by Web Dev Simplified"
-        />
+        <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -28,8 +22,8 @@ const MyApp: AppType<{ session: Session | null }> = ({
           </div>
         </div>
       </div>
-    </SessionProvider>
+    </ClerkProvider>
   );
-};
+}
 
 export default api.withTRPC(MyApp);

@@ -15,8 +15,8 @@ export function ProfileImage({ src, className = "" }: ProfileImageProps) {
           src={src}
           alt="Profile Image"
           quality={100}
-          width="180"
-          height="60"
+          width={150}
+          height={150}
           priority
         />
       )}
