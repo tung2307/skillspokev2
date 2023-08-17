@@ -57,7 +57,10 @@ export function TopNav() {
           ) : (
             <div className="relative" ref={dropdownRef}>
               <button onClick={() => setDropdownVisible(!dropdownVisible)}>
-                <ProfileImage src={session.data?.user.image} />
+                <ProfileImage
+                  src={session.data?.user.image}
+                  className="h-12 w-12"
+                />
               </button>
               {dropdownVisible && (
                 <div className="absolute right-0 mt-2 w-auto rounded border border-gray-200 bg-white text-black shadow-lg">
@@ -120,7 +123,10 @@ export function TopNav() {
           ) : (
             <div className="relative" ref={menuRef}>
               <button onClick={() => setMenuVisible(!menuVisible)}>
-                <ProfileImage src={session.data?.user.image} />
+                <ProfileImage
+                  src={session.data?.user.image}
+                  className="h-12 w-12"
+                />
               </button>
               {menuVisible && (
                 <div className="absolute right-0 mt-2 w-auto rounded border border-gray-200 bg-white text-black shadow-lg">
