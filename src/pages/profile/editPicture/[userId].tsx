@@ -1,5 +1,4 @@
 import { UserProfile } from "@clerk/nextjs";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
 export default function Page() {
