@@ -12,7 +12,7 @@ export default function Page() {
   }
   useEffect(() => {
     if (userId != user.user?.id || !user.isSignedIn) {
-      router.push("/");
+      void router.push("/");
     }
   }, [userId, user.user?.id, user.isSignedIn]);
 
