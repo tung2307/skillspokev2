@@ -1,13 +1,15 @@
 import { useRouter } from "next/router";
 import { ProfileImage } from "~/components/ProfileImage";
-import { useUser } from "@clerk/nextjs";
+import { useAuth, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 const ProfilePage = () => {
   const router = useRouter();
   const userId =
     typeof router.query.userId === "string" ? router.query.userId : ""; // Type assertion here
-
   const user = useUser();
+  if (userId != user.user?.id || !user.isSignedIn) {
+    return (window.location.href = "/");
+  }
   return (
     <div className="flex h-auto flex-col md:h-screen md:flex-row xl:flex-row">
       <div className=" mb-5 w-full border-b pb-5 pt-10 md:w-80 md:border-r xl:w-80">
@@ -22,7 +24,7 @@ const ProfilePage = () => {
                 <div key={index}>{emailAddressResource.emailAddress}</div>
               ))}
             </div>
-            <div>
+            <div className="mt-5 rounded border bg-[#4682B4] p-1 text-white hover:bg-white hover:text-black">
               <Link href={"./editPicture/" + userId}>Account setting</Link>
             </div>
           </div>

@@ -1,7 +1,7 @@
 import { api } from "~/utils/api";
 import "~/styles/globals.css";
 import Head from "next/head";
-import { TopNav } from "~/components/TopNav";
+import TopNav from "~/components/TopNav";
 import { ClerkProvider } from "@clerk/nextjs";
 import type { AppProps } from "next/app";
 

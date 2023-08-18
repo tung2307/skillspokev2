@@ -1,14 +1,34 @@
 import { SignInButton, SignOutButton, useAuth, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { api } from "~/utils/api";
 import { ProfileImage } from "./ProfileImage";
 import Search from "./Search";
+import { toast } from "react-hot-toast";
 
-export function TopNav() {
+export default function TopNav() {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
   const user = useUser();
-  const auth = useAuth();
+  const { data } = api.users.getUser.useQuery({
+    userId: user.user?.id.toString() || "",
+  });
+  const ctx = api.useContext();
+  const { mutate } = api.users.create.useMutation({
+    onError: (e) => {
+      const errorMessage = e.data?.zodError?.fieldErrors.content;
+      if (errorMessage && errorMessage[0]) {
+        toast.error(errorMessage[0]);
+      } else {
+        toast.error("Failed to post! Please try again later.");
+      }
+    },
+  });
+  useEffect(() => {
+    if (data === null) {
+      mutate({ name: user.user?.fullName || "" });
+    }
+  }, [user.user?.fullName, data]);
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
@@ -70,7 +90,7 @@ export function TopNav() {
                       {user.user.fullName}
                     </div>
                     <div className="w-full border-b"></div>
-                    <Link href={`/profile/${auth.userId}`} passHref>
+                    <Link href={`/profile/${user.user.id}`} passHref>
                       <div className="block w-full p-3 text-left hover:bg-gray-100">
                         Full Profile
                       </div>
@@ -128,7 +148,7 @@ export function TopNav() {
                       {user.user.fullName}
                     </div>
                     <div className="w-full border-b"></div>
-                    <Link href={`/profile/${auth.userId}`}>
+                    <Link href={`/profile/${user.user.id}`}>
                       <div className="block w-full p-3 text-left hover:bg-gray-100">
                         Full Profile
                       </div>
