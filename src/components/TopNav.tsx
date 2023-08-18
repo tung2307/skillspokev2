@@ -1,4 +1,4 @@
-import { SignInButton, SignOutButton, useAuth, useUser } from "@clerk/nextjs";
+import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { api } from "~/utils/api";
@@ -11,13 +11,13 @@ export default function TopNav() {
   const [menuVisible, setMenuVisible] = useState(false);
   const user = useUser();
   const { data } = api.users.getUser.useQuery({
-    userId: user.user?.id.toString() || "",
+    userId: user.user?.id.toString() ?? "",
   });
-  const ctx = api.useContext();
+  //const ctx = api.useContext();
   const { mutate } = api.users.create.useMutation({
     onError: (e) => {
       const errorMessage = e.data?.zodError?.fieldErrors.content;
-      if (errorMessage && errorMessage[0]) {
+      if (errorMessage?.[0]) {
         toast.error(errorMessage[0]);
       } else {
         toast.error("Failed to post! Please try again later.");
@@ -26,9 +26,9 @@ export default function TopNav() {
   });
   useEffect(() => {
     if (data === null) {
-      mutate({ name: user.user?.fullName || "" });
+      mutate({ name: user.user?.fullName ?? "" });
     }
-  }, [user.user?.fullName, data]);
+  }, [user.user?.fullName, data, mutate]);
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);

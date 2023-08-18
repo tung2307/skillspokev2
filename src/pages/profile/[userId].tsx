@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { ProfileImage } from "~/components/ProfileImage";
-import { useAuth, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
 const ProfilePage = () => {
   const router = useRouter();
