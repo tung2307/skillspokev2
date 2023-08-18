@@ -1,5 +1,6 @@
 import { UserProfile, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export default function Page() {
   const router = useRouter();
@@ -9,9 +10,11 @@ export default function Page() {
   function handleClick() {
     void router.push("/profile/" + userId);
   }
-  if (!user.isSignedIn || userId == "") {
-    return router.push("/");
-  }
+  useEffect(() => {
+    if (userId != user.user?.id || !user.isSignedIn) {
+      router.push("/");
+    }
+  }, [userId, user.user?.id, user.isSignedIn]);
 
   return (
     <>
