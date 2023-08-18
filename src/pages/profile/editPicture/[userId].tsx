@@ -10,7 +10,7 @@ export default function Page() {
     void router.push("/profile/" + userId);
   }
   if (!user.isSignedIn || userId == "") {
-    return (window.location.href = "/");
+    return router.push("/");
   }
 
   return (

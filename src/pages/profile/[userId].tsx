@@ -8,7 +8,7 @@ const ProfilePage = () => {
     typeof router.query.userId === "string" ? router.query.userId : ""; // Type assertion here
   const user = useUser();
   if (userId != user.user?.id || !user.isSignedIn) {
-    return (window.location.href = "/");
+    return router.push("/");
   }
   return (
     <div className="flex h-auto flex-col md:h-screen md:flex-row xl:flex-row">
