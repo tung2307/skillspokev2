@@ -1,4 +1,4 @@
-import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
+import { SignOutButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { api } from "~/utils/api";
@@ -10,10 +10,20 @@ export default function TopNav() {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
   const user = useUser();
-  const { data } = api.users.getUser.useQuery({
-    userId: user.user?.id.toString() ?? "",
-  });
-  //const ctx = api.useContext();
+  const userId = user.user?.id;
+  let count: number = 0;
+  const { data, error } = api.users.getUser.useQuery(
+    { userId: userId || "" },
+    { enabled: !!userId } // Query will only run if userId is truthy
+  );
+
+  useEffect(() => {
+    if (error) {
+      console.log(error);
+      // Handle the error here
+    }
+  }, [error]);
+
   const { mutate } = api.users.create.useMutation({
     onError: (e) => {
       const errorMessage = e.data?.zodError?.fieldErrors.content;
@@ -58,23 +68,22 @@ export default function TopNav() {
   return (
     <>
       <div className="sticky top-0 z-10 flex h-20 items-center justify-between bg-[#4682B4] px-4">
-        <div className="flex justify-start">
+        <div className="flex flex-grow justify-start gap-7">
           <div className="text-4xl font-bold text-white ">
             <Link href="/">SKILLSPOKE</Link>
           </div>
-          <div>
-            <Search className="" />
+          <div className=" w-1/2">
+            <Search className=" hidden h-10 justify-normal text-lg text-black md:flex " />
           </div>
         </div>
 
         <div className="relative hidden items-center justify-start gap-2 whitespace-nowrap text-sm text-white md:flex md:gap-5 md:text-base xl:flex xl:gap-10 xl:text-lg">
-          <Link href="/join">Join Our Network</Link>
-          <Link href="/discover">Discover</Link>
+          <Link href={`/discover/`}>Discover</Link>
 
           {!user.isLoaded ? (
             <div></div> // Loading state
           ) : user.user == null ? (
-            <SignInButton />
+            <Link href={`/sign-in`}>Sign in</Link>
           ) : (
             <div className="relative" ref={dropdownRef}>
               <button onClick={() => setDropdownVisible(!dropdownVisible)}>
@@ -96,7 +105,9 @@ export default function TopNav() {
                       </div>
                     </Link>
                     <div className="block w-full p-3 text-left hover:bg-gray-100">
-                      <SignOutButton />
+                      <SignOutButton>
+                        <button className="w-full text-left">Sign Out</button>
+                      </SignOutButton>
                     </div>
                   </div>
                 </div>
@@ -118,17 +129,21 @@ export default function TopNav() {
               {menuVisible && (
                 <div className="absolute right-0 mt-2 w-auto rounded border border-gray-200 bg-white text-black shadow-lg">
                   <div onClick={closeAll} className="flex w-40 flex-col">
-                    <Link href="/join">
+                    <Link href={`/search/`}>
                       <div className="block w-full p-3 text-left hover:bg-gray-100">
-                        Join Our Network
+                        Search
                       </div>
                     </Link>
-                    <Link href="/discover">
+                    <Link href={`/discover/`}>
                       <div className="block w-full p-3 text-left hover:bg-gray-100">
                         Discover
                       </div>
                     </Link>
-                    <SignInButton />
+                    <Link href={`/sign-in`}>
+                      <div className="block w-full p-3 text-left hover:bg-gray-100">
+                        Sign in
+                      </div>
+                    </Link>
                   </div>
                 </div>
               )}
@@ -153,18 +168,21 @@ export default function TopNav() {
                         Full Profile
                       </div>
                     </Link>
-                    <Link href="/join">
+                    <Link href={`/search/`}>
                       <div className="block w-full p-3 text-left hover:bg-gray-100">
-                        Join Our Network
+                        Search
                       </div>
                     </Link>
-                    <Link href="/discover">
+                    <Link href={`/discover/`}>
                       <div className="block w-full p-3 text-left hover:bg-gray-100">
                         Discover
                       </div>
                     </Link>
+
                     <div className="block w-full p-3 text-left hover:bg-gray-100">
-                      <SignOutButton />
+                      <SignOutButton>
+                        <button className="w-full text-left">Sign Out</button>
+                      </SignOutButton>
                     </div>
                   </div>
                 </div>

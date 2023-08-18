@@ -9,9 +9,19 @@ export default function Search({ className = "" }: SearchProps) {
   if (router.pathname === "/") {
     return null;
   }
+
   return (
     <>
-      <div className={`${className}`}></div>
+      <div className={`${className}`}>
+        <input
+          className="w-full rounded-l border-r pl-5 outline-none"
+          placeholder="Service"
+        />
+        <input
+          className="w-full rounded-r border-l pl-5 outline-none"
+          placeholder="Location"
+        />
+      </div>
     </>
   );
 }
