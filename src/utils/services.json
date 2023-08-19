@@ -1,0 +1,95 @@
+[
+  {
+    "Home Services": [
+      "Plumbing",
+      "Electrician",
+      "Carpentry",
+      "Landscaping",
+      "Pest Control",
+      "Interior Design Consultation",
+      "Home Cleaning",
+      "Moving Services",
+      "Home Inspection"
+    ]
+  },
+  {
+    "Creative Services": [
+      "Photography",
+      "Graphic Design",
+      "Event Planning",
+      "Logo Design",
+      "Content Writing",
+      "Video Editing",
+      "Illustration",
+      "Art Galleries"
+    ]
+  },
+  {
+    "Food & Dining": [
+      "Catering",
+      "Personal Chef",
+      "Food Photography",
+      "Restaurants",
+      "Cafes",
+      "Bakeries",
+      "Bars"
+    ]
+  },
+  {
+    "Technology & Web": [
+      "Web Development",
+      "IT Support",
+      "SEO",
+      "Mobile App Development",
+      "Software Testing",
+      "Tech Repair",
+      "Electronics Retail"
+    ]
+  },
+  {
+    "Health & Wellness": [
+      "Personal Training",
+      "Nutritionist",
+      "Fitness Coaching",
+      "Meditation Guidance",
+      "Gyms",
+      "Spas",
+      "Dentists"
+    ]
+  },
+  {
+    "Education & Learning": [
+      "Tutoring",
+      "Music Lessons",
+      "Language Lessons",
+      "Resume Writing",
+      "Adult Education",
+      "Kids' Activities"
+    ]
+  },
+  {
+    "Legal & Financial": [
+      "Tax Preparation",
+      "Legal Consultation",
+      "Financial Planning",
+      "Contract Writing",
+      "Banks",
+      "Law Offices"
+    ]
+  },
+  {
+    "Travel & Leisure": ["Travel Planning", "Hotels", "Tours", "Nightlife"]
+  },
+  {
+    "Stores & Shopping": [
+      "Custom Furniture",
+      "Personal Shopping",
+      "E-commerce Consultation",
+      "Product Photography",
+      "Retail Stores",
+      "Grocery Stores",
+      "Clothing Stores",
+      "Electronics Stores"
+    ]
+  }
+]

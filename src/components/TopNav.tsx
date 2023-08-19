@@ -68,16 +68,16 @@ export default function TopNav() {
   return (
     <>
       <div className="sticky top-0 z-10 flex h-20 items-center justify-between bg-[#4682B4] px-4">
-        <div className="flex flex-grow justify-start gap-7">
+        <div className="flex flex-grow justify-start md:gap-4 xl:gap-40">
           <div className="text-4xl font-bold text-white ">
             <Link href="/">SKILLSPOKE</Link>
           </div>
           <div className=" w-1/2">
-            <Search className=" hidden h-10 justify-normal text-lg text-black md:flex " />
+            <Search />
           </div>
         </div>
 
-        <div className="relative hidden items-center justify-start gap-2 whitespace-nowrap text-sm text-white md:flex md:gap-5 md:text-base xl:flex xl:gap-10 xl:text-lg">
+        <div className="relative hidden items-center justify-start gap-2 whitespace-nowrap text-sm text-white md:flex md:gap-3 md:text-base xl:flex xl:gap-10 xl:text-lg">
           <Link href={`/discover/`}>Discover</Link>
 
           {!user.isLoaded ? (
