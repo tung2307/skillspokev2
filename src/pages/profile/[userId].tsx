@@ -12,7 +12,7 @@ const ProfilePage = () => {
     if (userId != user.user?.id || !user.isSignedIn) {
       void router.push("/");
     }
-  }, [userId, user.user?.id, user.isSignedIn]);
+  }, [userId, user.user?.id, user.isSignedIn, router]);
 
   return (
     <div className="flex h-auto flex-col md:h-screen md:flex-row xl:flex-row">

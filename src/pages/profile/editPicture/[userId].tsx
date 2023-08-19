@@ -14,7 +14,7 @@ export default function Page() {
     if (userId != user.user?.id || !user.isSignedIn) {
       void router.push("/");
     }
-  }, [userId, user.user?.id, user.isSignedIn]);
+  }, [userId, user.user?.id, user.isSignedIn, router]);
 
   return (
     <>
