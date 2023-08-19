@@ -4,18 +4,6 @@ import { useRef } from "react";
 import district from "../utils/district.json";
 import service from "../utils/services.json";
 
-type ServiceCategory = {
-  "Home Services": string[];
-  "Creative Services"?: string[];
-  "Food & Dining"?: string[];
-  "Technology & Web"?: string[];
-  "Health & Wellness"?: string[];
-  "Education & Learning"?: string[];
-  "Legal & Financial"?: string[];
-  "Travel & Leisure"?: string[];
-  "Stores & Shopping"?: string[];
-};
-
 export default function Search() {
   const router = useRouter();
   const [serviceInput, setServiceInput] = useState("");
@@ -34,24 +22,10 @@ export default function Search() {
   const handleServiceInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     setServiceInput(inputValue);
-
-    // Create an array to hold all service suggestions
-    const allServices: string[] = [];
-
-    service.forEach((category) => {
-      Object.values(category).forEach((services) => {
-        if (Array.isArray(services)) {
-          allServices.push(...services);
-        }
-      });
-    });
-
-    // Filter the suggestions based on user input
-    const filteredSuggestions = allServices.filter((item) =>
+    const filteredServiceSuggestions = service.filter((item) =>
       item.toLowerCase().startsWith(inputValue.toLowerCase())
     );
-
-    setSuggestions(filteredSuggestions);
+    setSuggestions(filteredServiceSuggestions);
   };
 
   const handleDistrictInputChange = (
@@ -104,7 +78,6 @@ export default function Search() {
                   key={index}
                   className="cursor-pointer p-2 hover:bg-gray-200"
                   onClick={() => {
-                    console.log("Service suggestion clicked:", suggestion);
                     setServiceInput(suggestion);
                     setSuggestions([]); // Clears the suggestions once clicked
                   }}
