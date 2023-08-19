@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { api } from "~/utils/api";
 import { ProfileImage } from "./ProfileImage";
 import Search from "./Search";
-import { toast } from "react-hot-toast";
 
 export default function TopNav() {
   const [dropdownVisible, setDropdownVisible] = useState(false);
