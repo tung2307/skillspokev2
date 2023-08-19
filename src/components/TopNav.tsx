@@ -11,9 +11,8 @@ export default function TopNav() {
   const [menuVisible, setMenuVisible] = useState(false);
   const user = useUser();
   const userId = user.user?.id;
-  let count: number = 0;
   const { data, error } = api.users.getUser.useQuery(
-    { userId: userId || "" },
+    { userId: userId ?? "" },
     { enabled: !!userId } // Query will only run if userId is truthy
   );
 
@@ -24,16 +23,8 @@ export default function TopNav() {
     }
   }, [error]);
 
-  const { mutate } = api.users.create.useMutation({
-    onError: (e: any) => {
-      const errorMessage = e.data?.zodError?.fieldErrors.content;
-      if (errorMessage?.[0]) {
-        toast.error(errorMessage[0]);
-      } else {
-        toast.error("Failed to post! Please try again later.");
-      }
-    },
-  });
+  const { mutate } = api.users.create.useMutation({});
+
   useEffect(() => {
     if (data === null) {
       mutate({ name: user.user?.fullName ?? "" });
