@@ -25,7 +25,7 @@ export default function TopNav() {
   }, [error]);
 
   const { mutate } = api.users.create.useMutation({
-    onError: (e) => {
+    onError: (e: any) => {
       const errorMessage = e.data?.zodError?.fieldErrors.content;
       if (errorMessage?.[0]) {
         toast.error(errorMessage[0]);
