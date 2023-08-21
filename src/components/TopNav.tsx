@@ -70,7 +70,7 @@ export default function TopNav() {
         </div>
 
         <div className="relative hidden items-center justify-start gap-2 whitespace-nowrap text-sm text-white md:flex md:text-base xl:flex xl:text-lg">
-          <Link href={`/discover/sdsd`} className=" hover:border-b">
+          <Link href={`/discover/Bình Thạnh`} className=" hover:border-b">
             {t("discover")}
           </Link>
 
