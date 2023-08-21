@@ -4,10 +4,18 @@ import Head from "next/head";
 import TopNav from "~/components/TopNav";
 import { ClerkProvider } from "@clerk/nextjs";
 import type { AppProps } from "next/app";
-
+import "../utils/i18n";
+import { viVN, enUS } from "@clerk/localizations";
+import { useRouter } from "next/router";
 function MyApp({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+  const { locale } = router;
+
+  // Choose the appropriate Clerk localization based on the current locale
+  const clerkLocalization = locale === "vi" ? viVN : enUS;
+
   return (
-    <ClerkProvider {...pageProps}>
+    <ClerkProvider localization={clerkLocalization} {...pageProps}>
       <Head>
         <title>Skillspoke</title>
         <meta name="description" content="" />

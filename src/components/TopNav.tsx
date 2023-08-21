@@ -1,11 +1,14 @@
 import { SignOutButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { api } from "~/utils/api";
+import LanguageSwitcher from "./LanguageSwitcher";
 import { ProfileImage } from "./ProfileImage";
 import Search from "./Search";
 
 export default function TopNav() {
+  const { t } = useTranslation();
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
   const user = useUser();
@@ -25,7 +28,7 @@ export default function TopNav() {
   const { mutate } = api.users.create.useMutation({});
 
   useEffect(() => {
-    if (data === null) {
+    if (data === null && user.isSignedIn) {
       mutate({ name: user.user?.fullName ?? "" });
     }
   }, [user.user?.fullName, data, mutate]);
@@ -62,18 +65,20 @@ export default function TopNav() {
           <div className="text-4xl font-bold text-white ">
             <Link href="/">SKILLSPOKE</Link>
           </div>
-          <div className=" w-1/2">
-            <Search />
-          </div>
+          <Search />
         </div>
 
-        <div className="relative hidden items-center justify-start gap-2 whitespace-nowrap text-sm text-white md:flex md:gap-3 md:text-base xl:flex xl:gap-10 xl:text-lg">
-          <Link href={`/discover/`}>Discover</Link>
+        <div className="relative hidden items-center justify-start gap-2 whitespace-nowrap text-sm text-white md:flex md:text-base xl:flex xl:text-lg">
+          <Link href={`/discover/sdsd`} className=" hover:border-b">
+            {t("discover")}
+          </Link>
 
           {!user.isLoaded ? (
             <div></div> // Loading state
           ) : user.user == null ? (
-            <Link href={`/sign-in`}>Sign in</Link>
+            <div className="rounded border bg-white p-1 text-[#4682B4] hover:bg-[#4682B4] hover:text-white">
+              <Link href={`/sign-in`}>{t("signIn")}</Link>
+            </div>
           ) : (
             <div className="relative" ref={dropdownRef}>
               <button onClick={() => setDropdownVisible(!dropdownVisible)}>
@@ -91,12 +96,14 @@ export default function TopNav() {
                     <div className="w-full border-b"></div>
                     <Link href={`/profile/${user.user.id}`} passHref>
                       <div className="block w-full p-3 text-left hover:bg-gray-100">
-                        Full Profile
+                        {t("fullProfile")}
                       </div>
                     </Link>
                     <div className="block w-full p-3 text-left hover:bg-gray-100">
                       <SignOutButton>
-                        <button className="w-full text-left">Sign Out</button>
+                        <button className="w-full text-left">
+                          {t("signOut")}
+                        </button>
                       </SignOutButton>
                     </div>
                   </div>
@@ -121,17 +128,17 @@ export default function TopNav() {
                   <div onClick={closeAll} className="flex w-40 flex-col">
                     <Link href={`/search/`}>
                       <div className="block w-full p-3 text-left hover:bg-gray-100">
-                        Search
+                        {t("search")}
                       </div>
                     </Link>
                     <Link href={`/discover/`}>
                       <div className="block w-full p-3 text-left hover:bg-gray-100">
-                        Discover
+                        {t("discover")}
                       </div>
                     </Link>
                     <Link href={`/sign-in`}>
                       <div className="block w-full p-3 text-left hover:bg-gray-100">
-                        Sign in
+                        {t("signIn")}
                       </div>
                     </Link>
                   </div>
@@ -155,23 +162,25 @@ export default function TopNav() {
                     <div className="w-full border-b"></div>
                     <Link href={`/profile/${user.user.id}`}>
                       <div className="block w-full p-3 text-left hover:bg-gray-100">
-                        Full Profile
+                        {t("fullProfile")}
                       </div>
                     </Link>
                     <Link href={`/search/`}>
                       <div className="block w-full p-3 text-left hover:bg-gray-100">
-                        Search
+                        {t("search")}
                       </div>
                     </Link>
                     <Link href={`/discover/`}>
                       <div className="block w-full p-3 text-left hover:bg-gray-100">
-                        Discover
+                        {t("discover")}
                       </div>
                     </Link>
 
                     <div className="block w-full p-3 text-left hover:bg-gray-100">
                       <SignOutButton>
-                        <button className="w-full text-left">Sign Out</button>
+                        <button className="w-full text-left">
+                          {t("signOut")}
+                        </button>
                       </SignOutButton>
                     </div>
                   </div>
@@ -179,6 +188,9 @@ export default function TopNav() {
               )}
             </div>
           )}
+        </div>
+        <div className="mx-2 flex items-center">
+          <LanguageSwitcher />
         </div>
       </div>
     </>

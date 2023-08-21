@@ -1,0 +1,13 @@
+{
+  "create": "Add a store",
+  "addStore": "Can't find the store you are looking for?",
+  "service": "Service",
+  "district": "District",
+  "discover": "Discover",
+  "signIn": "Sign In",
+  "signOut": "Sign Out",
+  "fullProfile": "Full Profile",
+  "search": "Search",
+  "english": "English",
+  "vietnamese": "Vietnamese"
+}
