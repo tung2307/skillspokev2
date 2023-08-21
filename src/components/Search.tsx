@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useRef } from "react";
-import district from "../utils/district.json";
-import service from "../utils/services.json";
+import district from "~/utils/district.json";
+import service from "~/utils/services.json";
 import SearchIcon from "@mui/icons-material/Search";
 import { useTranslation } from "react-i18next";
 

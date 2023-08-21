@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
-import i18n from "../utils/i18n"; // Adjust the path to point to your i18n.ts file
+import i18n from "~/utils/i18n"; // Adjust the path to point to your i18n.ts file
 import LanguageIcon from "@mui/icons-material/Language";
 import { useTranslation } from "react-i18next";
 function LanguageSwitcher() {

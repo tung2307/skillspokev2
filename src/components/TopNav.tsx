@@ -2,7 +2,8 @@ import { SignOutButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { api } from "~/utils/api";
+import { api } from "../utils/api";
+
 import LanguageSwitcher from "./LanguageSwitcher";
 import { ProfileImage } from "./ProfileImage";
 import Search from "./Search";

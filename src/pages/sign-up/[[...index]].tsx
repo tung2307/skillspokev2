@@ -1,10 +1,18 @@
 import { SignUp } from "@clerk/nextjs";
+import { useRouter } from "next/router";
 
-const SignUpPage = () => (
-  <>
-    <div className="mt-16 flex  justify-center">
-      <SignUp path="/sign-up" routing="path" signInUrl="/sign-in" />
-    </div>
-  </>
-);
+const SignUpPage = () => {
+  const { locale, defaultLocale } = useRouter();
+  return (
+    <>
+      <div className="mt-16 flex  justify-center">
+        <SignUp
+          path={`${locale === defaultLocale ? "" : "/" + locale}/sign-in`}
+          signInUrl={`${locale === defaultLocale ? "" : "/" + locale}/sign-up
+`}
+        />
+      </div>
+    </>
+  );
+};
 export default SignUpPage;

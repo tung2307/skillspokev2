@@ -5,5 +5,5 @@ export default function Page() {
   const location =
     typeof router.query.location === "string" ? router.query.location : "";
 
-  return <></>;
+  return <>alksdjaslk</>;
 }

@@ -26,7 +26,6 @@
     "@trpc/server": "^10.37.1",
     "flag-icons": "^6.10.0",
     "i18next": "^23.4.4",
-    "i18next-browser-languagedetector": "^7.1.0",
     "i18next-http-backend": "^2.2.1",
     "next": "^13.4.2",
     "next-auth": "^4.22.4",

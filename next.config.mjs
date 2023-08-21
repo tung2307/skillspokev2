@@ -20,6 +20,7 @@ const config = {
   i18n: {
     locales: ['en', 'vi'],
     defaultLocale: 'vi',
+    localeDetection: false,
   },
 };
 
