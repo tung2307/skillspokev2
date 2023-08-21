@@ -11,7 +11,7 @@ function LanguageSwitcher() {
 
   const changeLanguage = (lang: "en" | "vi") => {
     setIsOpen(false); // Close the dropdown
-    i18n.changeLanguage(lang); // Change language in i18next
+    void i18n.changeLanguage(lang); // Change language in i18next
 
     // Keep the current query parameters
     const { pathname, query } = router;
@@ -33,7 +33,7 @@ function LanguageSwitcher() {
 
     // Construct the new URL
     const newUrl = `${pathname}?${queryString}`;
-    router.push(newUrl, undefined, { locale: lang }); // Update locale in Next.js
+    void router.push(newUrl, undefined, { locale: lang }); // Update locale in Next.js
   };
 
   const currentLang = i18n.language; // Get the current language from i18n

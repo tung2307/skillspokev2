@@ -45,7 +45,7 @@ export default function Search() {
   const handleClickOutside = (e: MouseEvent) => {
     if (
       (serviceDropdownRef.current &&
-        !serviceDropdownRef.current.contains(e.target as Node)) ||
+        !serviceDropdownRef.current.contains(e.target as Node)) ??
       (districtDropdownRef.current &&
         !districtDropdownRef.current.contains(e.target as Node))
     ) {
@@ -78,7 +78,7 @@ export default function Search() {
     // Check if the service and district are included in the json files
     if (isServiceValid && isDistrictValid) {
       // Proceed with desired action, such as routing to search results page
-      router.push(
+      void router.push(
         `/search/results?service=${serviceInput}&district=${districtInput}`
       );
     } else if (!isServiceValid) {

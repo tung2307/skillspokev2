@@ -5,7 +5,7 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import { initReactI18next } from "react-i18next";
 import enTranslation from "../../public/locales/en/translation.json";
 import viTranslation from "../../public/locales/vi/translation.json";
-i18n
+void i18n
   .use(Backend)
   .use(LanguageDetector)
   .use(initReactI18next)
