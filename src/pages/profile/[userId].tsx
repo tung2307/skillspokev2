@@ -3,7 +3,9 @@ import { ProfileImage } from "~/components/ProfileImage";
 import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 const ProfilePage = () => {
+  const { t } = useTranslation();
   const router = useRouter();
   const userId =
     typeof router.query.userId === "string" ? router.query.userId : ""; // Type assertion here
@@ -29,7 +31,9 @@ const ProfilePage = () => {
               ))}
             </div>
             <div className="mt-5 rounded border bg-[#4682B4] p-1 text-white hover:bg-white hover:text-black">
-              <Link href={"./editPicture/" + userId}>Account setting</Link>
+              <Link href={"./editPicture/" + userId}>
+                {t("accountSetting")}
+              </Link>
             </div>
           </div>
         </div>
