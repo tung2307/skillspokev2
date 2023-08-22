@@ -1,24 +1,30 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import get from "lodash/get";
+
+type ApiResponse = {
+  ip: string;
+};
+
 class MyClassComponent extends React.Component {
   myIp: string | null = null;
 
   getMyIp = () => {
     fetch("https://api.ipify.org?format=json")
-      .then((response) => {
-        return response.json();
-      })
-      .then((res: any) => {
+      .then((response) => response.json())
+      .then((res: ApiResponse) => {
         this.myIp = get(res, "ip");
       })
-      .catch((err: any) => console.error("Problem fetching my IP", err));
+      .catch((err: Error) => console.error("Problem fetching my IP", err));
   };
+
+  componentDidMount() {
+    this.getMyIp();
+  }
 
   render() {
     return (
       <>
-        {" "}
         <div>
           My IP: {this.myIp} {/* Render the myIp value here */}
         </div>
