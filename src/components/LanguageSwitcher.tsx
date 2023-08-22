@@ -75,7 +75,7 @@ function LanguageSwitcher() {
         onClick={() => setIsOpen(!isOpen)}
       >
         <LanguageIcon />
-        <div>{displayLang}</div>
+        <div className="hidden md:flex">{displayLang}</div>
       </div>
 
       {isOpen && (

@@ -63,7 +63,7 @@ export default function TopNav() {
     <>
       <div className="sticky top-0 z-10 flex h-20 items-center justify-between bg-[#4682B4] px-4">
         <div className="flex flex-grow justify-start md:gap-4 xl:gap-40">
-          <div className="text-4xl font-bold text-white ">
+          <div className="text-2xl font-bold text-white sm:text-4xl ">
             <Link href="/">SKILLSPOKE</Link>
           </div>
           <Search />
@@ -120,7 +120,7 @@ export default function TopNav() {
             <div className="relative" ref={menuRef}>
               <button
                 onClick={() => setMenuVisible(!menuVisible)}
-                className="flex items-center text-5xl text-white"
+                className="flex -translate-y-1 transform text-5xl text-white"
               >
                 ≡
               </button>
@@ -190,7 +190,7 @@ export default function TopNav() {
             </div>
           )}
         </div>
-        <div className="mx-2 flex items-center">
+        <div className="mx-2 flex items-center ">
           <LanguageSwitcher />
         </div>
       </div>

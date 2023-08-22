@@ -8,6 +8,8 @@ export default function Search() {
   const { service, district } = router.query; // Destructuring the query parameters
 
   const { t } = useTranslation();
+
+  
   return (
     <>
       <div className="flex flex-col">
@@ -17,7 +19,7 @@ export default function Search() {
 
         <div className="flex justify-center">
           <Link href="/add/store">
-            <p className="flex w-40 justify-center rounded-lg border bg-[#4682B4] p-2 text-white">
+            <p className="flex w-40 justify-center rounded-lg border bg-[#4682B4] p-2 text-white hover:bg-white hover:text-[#4682B4]">
               {t("create")}
             </p>
           </Link>

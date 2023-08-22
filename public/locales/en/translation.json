@@ -10,5 +10,9 @@
   "search": "Search",
   "english": "English",
   "vietnamese": "Vietnamese",
-  "accountSetting": "Account setting"
+  "accountSetting": "Account setting",
+  "logOut-signIn": "You have logged out. Please sign in",
+  "manageService": "Manage your service",
+  "recentReview": "Recent review",
+  "popularService": "Popular Services in "
 }

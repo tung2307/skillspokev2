@@ -18,8 +18,8 @@ export default function Page() {
 
   return (
     <>
-      <div className="my-10 flex justify-center">
-        <div className="text-xl font-bold">
+      <div className="my-2 flex flex-col justify-center md:my-10 md:flex-row">
+        <div className=" flex items-start p-3 text-xl font-bold md:p-0">
           <button onClick={handleClick}>&#x2190;</button>
         </div>
         <UserProfile />

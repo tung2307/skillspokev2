@@ -10,5 +10,9 @@
   "search": "Tìm Kiếm",
   "english": "Tiếng Anh",
   "vietnamese": "Tiếng Việt",
-  "accountSetting": "Cài đặt tài khoản"
+  "accountSetting": "Cài đặt tài khoản",
+  "logOut-signIn": "Tài khoản đã đăng xuât. Vui lòng đăng nhập lại",
+  "manageService": "Quản lí dịch vụ của bạn",
+  "recentReview": "Đánh giá gần đây",
+  "popularService": "Dịch Vụ Phổ Biến ở"
 }
