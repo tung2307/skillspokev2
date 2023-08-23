@@ -3,7 +3,27 @@ import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
 
 export const storeRouter = createTRPCRouter({
   //createUser: privateProcedure.input(z.object({ userId: z.string() })),
-  getStore: privateProcedure
+  getServices: privateProcedure
+    .input(z.object({ location: z.string() }))
+    .query(async ({ ctx, input }) => {
+      if (input.location != "") {
+        const service = await ctx.prisma.store.findMany({
+          where: {
+            city: input.location,
+            remote: true,
+          },
+          take: 3,
+          orderBy: {
+            storePicture: {
+              _count: "desc",
+            },
+          },
+        });
+        return service;
+      }
+      return null;
+    }),
+  getStoreProfile: privateProcedure
     .input(z.object({ userId: z.string() }))
     .query(async ({ ctx, input }) => {
       if (input.userId != "") {

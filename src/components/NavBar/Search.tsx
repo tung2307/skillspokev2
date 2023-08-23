@@ -2,9 +2,9 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useRef } from "react";
 import district from "~/utils/district.json";
-import service from "~/utils/services.json";
 import SearchIcon from "@mui/icons-material/Search";
 import { useTranslation } from "react-i18next";
+import service from "~/utils/services.json";
 
 function removeDiacritics(str: string) {
   return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -15,6 +15,7 @@ export default function Search() {
   const router = useRouter();
   const [serviceInput, setServiceInput] = useState("");
   const [suggestions, setSuggestions] = useState<Array<string>>([]);
+
   const [districtInput, setDistrictInput] = useState("");
   const [districtSuggestions, setDistrictSuggestions] = useState<Array<string>>(
     []
@@ -22,23 +23,40 @@ export default function Search() {
   const serviceDropdownRef = useRef<HTMLDivElement>(null);
   const districtDropdownRef = useRef<HTMLDivElement>(null);
 
+  const serviceKeys = Object.keys(t("services", { returnObjects: true }));
+
+  const serviceWithMetadata = serviceKeys.map((serviceKey) => ({
+    key: serviceKey, // the key (like "cleaning")
+    translation: t(`services.${serviceKey}`), // the translated value (like "Cleaning" or "Dọn dẹp")
+    clean: removeDiacritics(t(`services.${serviceKey}`)).toLowerCase(),
+  }));
+
   const handleServiceInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     setServiceInput(inputValue);
-    const filteredServiceSuggestions = service.filter((item) =>
-      item.toLowerCase().startsWith(inputValue.toLowerCase())
-    );
+    const normalizedInputValue = removeDiacritics(inputValue).toLowerCase();
+
+    const filteredServiceSuggestions = serviceWithMetadata
+      .filter((itemObj) => itemObj.clean.includes(normalizedInputValue))
+      .map((itemObj) => itemObj.translation); // We want to show the translated value in suggestions
+
     setSuggestions(filteredServiceSuggestions);
   };
+
+  const districtWithMetadata = district.map((item) => ({
+    original: item,
+    clean: removeDiacritics(item.toLowerCase()),
+  }));
+
   const handleDistrictInputChange = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const inputValue = e.target.value;
     setDistrictInput(inputValue);
     const normalizedInputValue = removeDiacritics(inputValue.toLowerCase());
-    const filteredDistrictSuggestions = district.filter((item) =>
-      removeDiacritics(item.toLowerCase()).startsWith(normalizedInputValue)
-    );
+    const filteredDistrictSuggestions = districtWithMetadata
+      .filter((itemObj) => itemObj.clean.startsWith(normalizedInputValue))
+      .map((itemObj) => itemObj.original);
     setDistrictSuggestions(filteredDistrictSuggestions);
   };
 
@@ -89,6 +107,7 @@ export default function Search() {
       alert("Please enter a valid district.");
     }
   }
+
   return (
     <>
       <div className=" hidden h-10 justify-start text-lg text-black md:flex">

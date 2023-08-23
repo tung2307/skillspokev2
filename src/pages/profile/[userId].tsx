@@ -1,11 +1,11 @@
 import { useRouter } from "next/router";
-import { ProfileImage } from "~/components/ProfileImage";
+import { ProfileImage } from "~/components/ComponentHelpers/ProfileImage";
 import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { api } from "~/utils/api";
-import ProPage from "~/components/ProPage";
+import ProPage from "~/components/UserProfile/ProPage";
 const ProfilePage = () => {
   const { t } = useTranslation();
   const router = useRouter();
@@ -23,7 +23,7 @@ const ProfilePage = () => {
     { enabled: !!userId } // Query will only run if userId is truthy
   );
 
-  const { data: storeData } = api.stores.getStore.useQuery(
+  const { data: storeData } = api.stores.getStoreProfile.useQuery(
     { userId: userData?.id ?? "" },
     { enabled: userData?.role === "PRO" && !!userData?.id }
   );

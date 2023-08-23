@@ -1,12 +1,13 @@
 import { api } from "~/utils/api";
 import "~/styles/globals.css";
 import Head from "next/head";
-import TopNav from "~/components/TopNav";
+
 import { ClerkProvider } from "@clerk/nextjs";
 import type { AppProps } from "next/app";
 import "../utils/i18n";
 import { viVN, enUS } from "@clerk/localizations";
 import { useRouter } from "next/router";
+import TopNav from "~/components/NavBar/TopNav";
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const { locale } = router;
@@ -24,7 +25,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
       <div className="flex flex-col ">
         <TopNav />
-        <div className="mx-auto w-full">
+        <div className="mx-auto w-screen">
           <div className="min-h-screen flex-grow">
             <Component {...pageProps} />
           </div>

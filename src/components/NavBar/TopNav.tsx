@@ -2,16 +2,18 @@ import { SignOutButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { api } from "../utils/api";
+import { api } from "../../utils/api";
 
-import LanguageSwitcher from "./LanguageSwitcher";
-import { ProfileImage } from "./ProfileImage";
+import LanguageSwitcher from "../ComponentHelpers/LanguageSwitcher";
+import { ProfileImage } from "../ComponentHelpers/ProfileImage";
 import Search from "./Search";
 
 export default function TopNav() {
   const { t } = useTranslation();
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
+  const [isLocation, setIsLocation] = useState(false);
+  const [location, setLocation] = useState("Loading...");
   const user = useUser();
   const userId = user.user?.id;
   const { data, error } = api.users.getUser.useQuery(
@@ -58,19 +60,38 @@ export default function TopNav() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+  useEffect(() => {
+    if (!isLocation) {
+      fetch(`https://api.ipregistry.co/?key=${process.env.NEXT_PUBLIC_API_KEY}`)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((json: { location: { city: string } }) => {
+          setLocation(json.location.city);
+        })
+        .catch((error) => {
+          console.error("There was a problem fetching the location:", error);
+        });
 
+      setIsLocation(true);
+      console.log("render");
+    }
+  }, [isLocation]);
   return (
     <>
-      <div className="sticky top-0 z-10 flex h-20 items-center justify-between bg-[#4682B4] px-4">
+      <div className="sticky top-0 z-10 flex h-20 w-screen items-center justify-between bg-[#4682B4]">
         <div className="flex flex-grow justify-start md:gap-4 xl:gap-40">
-          <div className="text-2xl font-bold text-white sm:text-4xl ">
+          <div className="pl-8 text-2xl font-bold text-white sm:text-4xl">
             <Link href="/">SKILLSPOKE</Link>
           </div>
           <Search />
         </div>
 
         <div className="relative hidden items-center justify-start gap-2 whitespace-nowrap text-sm text-white md:flex md:text-base xl:flex xl:text-lg">
-          <Link href={`/discover/Bình Thạnh`} className=" hover:border-b">
+          <Link href={`/discover/${location}`} className=" hover:border-b">
             {t("discover")}
           </Link>
 
