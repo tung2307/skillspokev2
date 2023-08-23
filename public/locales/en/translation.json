@@ -15,9 +15,10 @@
   "manageService": "Manage your service",
   "recentReview": "Recent review",
   "popularService": "Popular Services in",
-
+  "appAvailable": "App Available",
+  "whyUs": "Why Us?",
   "services": {
-    "Makeup Artist":"Makeup Artist",
+    "Makeup Artist": "Makeup Artist",
     "Plumbing": "Plumbing",
     "Electrician": "Electrician",
     "Carpentry": "Carpentry",

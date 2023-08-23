@@ -83,14 +83,12 @@ export default function Search() {
     // No cleanup function is returned if the condition is not met
   }, [router.pathname]); // Dependency on the router pathname
 
-  // Hide the div on the '/hidden-page' route
-
-  if (router.pathname === "/") {
-    return null;
-  }
   // SearchButton
   function handleOnClick() {
-    const isServiceValid = service.includes(serviceInput);
+    const isServiceValid = serviceWithMetadata.some(
+      (item) => item.translation === serviceInput
+    );
+
     const isDistrictValid = district.includes(districtInput);
 
     // Check if the service and district are included in the json files
@@ -111,9 +109,9 @@ export default function Search() {
   return (
     <>
       <div className=" hidden h-10 justify-start text-lg text-black md:flex">
-        <div className="relative">
+        <div className="relative rounded-l border-b border-l border-t shadow">
           <input
-            className="h-full rounded-l border-r pl-2 outline-none md:w-[100%] lg:w-72"
+            className="h-full rounded-l pl-2 outline-none md:w-[100%] lg:w-72"
             placeholder={t("service")}
             value={serviceInput}
             onChange={handleServiceInputChange}
@@ -139,9 +137,9 @@ export default function Search() {
             </div>
           )}
         </div>
-        <div className="relative">
+        <div className="relative border-b border-l border-t shadow">
           <input
-            className="h-full border-l border-r pl-2 outline-none md:w-[100%] lg:w-72"
+            className="h-full pl-2 outline-none md:w-[100%] lg:w-72"
             placeholder={t("district")}
             value={districtInput}
             onChange={handleDistrictInputChange}
@@ -168,7 +166,7 @@ export default function Search() {
           )}
         </div>
         <div
-          className="mr-2 flex w-[2rem] items-center justify-center rounded-r border-r bg-white text-[] hover:cursor-pointer"
+          className="mr-2 flex w-[2rem] items-center justify-center rounded-r border-b border-l border-r border-t bg-white text-[] shadow hover:cursor-pointer"
           onClick={handleOnClick}
         >
           <SearchIcon />

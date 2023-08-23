@@ -1,12 +1,17 @@
 import { z } from "zod";
-import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  privateProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 
 export const storeRouter = createTRPCRouter({
   //createUser: privateProcedure.input(z.object({ userId: z.string() })),
-  getServices: privateProcedure
+  getServices: publicProcedure
     .input(z.object({ location: z.string() }))
     .query(async ({ ctx, input }) => {
-      if (input.location != "") {
+      console.log(input.location);
+      if (input.location != "Loading..." ?? input.location != "") {
         const service = await ctx.prisma.store.findMany({
           where: {
             city: input.location,

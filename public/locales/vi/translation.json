@@ -15,8 +15,10 @@
   "manageService": "Quản lí dịch vụ của bạn",
   "recentReview": "Đánh giá gần đây",
   "popularService": "Dịch Vụ Phổ Biến ở",
+  "appAvailable": "Tải ứng dụng",
+  "whyUs": "Tại sao chọn Skillspoke?",
   "services": {
-    "Makeup Artist":"Thợ trang điểm",
+    "Makeup Artist": "Thợ trang điểm",
     "Plumbing": "Thợ ống nước",
     "Electrician": "Thợ điện",
     "Carpentry": "Mộc",
