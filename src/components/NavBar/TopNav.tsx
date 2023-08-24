@@ -17,12 +17,18 @@ export default function TopNav() {
   const [isLocation, setIsLocation] = useState(false);
   const [location, setLocation] = useState("Loading...");
   const [isNavVisible, setIsNavVisible] = useState(true);
+
   const isHome = router.pathname === "/";
   const user = useUser();
   const userId = user.user?.id;
+  const [initialUserId, setInitialUserId] = useState(userId);
+  useEffect(() => {
+    setInitialUserId(userId);
+  }, [userId]); // Empty dependency array ensures this effect runs only once when the component mounts
+
   const { data, error } = api.users.getUser.useQuery(
-    { userId: userId ?? "" },
-    { enabled: !!userId } // Query will only run if userId is truthy
+    { userId: initialUserId ?? "" },
+    { enabled: !!initialUserId } // Query will only run if initialUserId is truthy
   );
 
   useEffect(() => {
@@ -104,7 +110,7 @@ export default function TopNav() {
   return (
     <>
       {isNavVisible ? (
-        <div className="sticky top-0 z-10 flex h-20 w-screen items-center justify-between bg-[#4682B4]">
+        <div className="sticky top-0 z-10 flex h-20 w-screen items-center justify-between bg-[#4682B4] pr-5">
           <div className="flex flex-grow justify-start md:gap-4 xl:gap-40">
             <div className="pl-8 text-2xl font-bold text-white sm:text-4xl">
               <Link href="/">SKILLSPOKE</Link>

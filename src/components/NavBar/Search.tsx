@@ -4,7 +4,6 @@ import { useRef } from "react";
 import district from "~/utils/district.json";
 import SearchIcon from "@mui/icons-material/Search";
 import { useTranslation } from "react-i18next";
-import service from "~/utils/services.json";
 
 function removeDiacritics(str: string) {
   return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -83,19 +82,24 @@ export default function Search() {
     // No cleanup function is returned if the condition is not met
   }, [router.pathname]); // Dependency on the router pathname
 
-  // SearchButton
   function handleOnClick() {
-    const isServiceValid = serviceWithMetadata.some(
+    const matchingServiceObj = serviceWithMetadata.find(
       (item) => item.translation === serviceInput
     );
 
+    // Check if matchingServiceObj is defined and extract the key
+    const serviceKeyForSubmission = matchingServiceObj
+      ? matchingServiceObj.key
+      : null;
+
+    // Adjust the isServiceValid condition to check for serviceKeyForSubmission
+    const isServiceValid = Boolean(serviceKeyForSubmission);
     const isDistrictValid = district.includes(districtInput);
 
     // Check if the service and district are included in the json files
     if (isServiceValid && isDistrictValid) {
-      // Proceed with desired action, such as routing to search results page
       void router.push(
-        `/search/results?service=${serviceInput}&district=${districtInput}`
+        `/search/results?service=${serviceKeyForSubmission}&district=${districtInput}`
       );
     } else if (!isServiceValid) {
       // Notify user that their input is not valid
@@ -166,7 +170,7 @@ export default function Search() {
           )}
         </div>
         <div
-          className="mr-2 flex w-[2rem] items-center justify-center rounded-r border-b border-l border-r border-t bg-white text-[] shadow hover:cursor-pointer"
+          className="mr-2 flex w-[3rem] items-center justify-center rounded-r border-b border-l border-r border-t bg-white shadow hover:cursor-pointer hover:bg-[#4682B4] hover:text-white"
           onClick={handleOnClick}
         >
           <SearchIcon />

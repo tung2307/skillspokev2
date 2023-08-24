@@ -11,11 +11,17 @@ export default function Section2() {
   const { t } = useTranslation();
   const [isLocation, setIsLocation] = useState(false);
   const [location, setLocation] = useState("Loading...");
+  const [initialLocation, setInitialLocation] = useState(location);
+
+  useEffect(() => {
+    setInitialLocation(location);
+  }, [location]); // Empty dependency array ensures this effect runs only once when the component mounts
+
   const defaultServices: ServiceProps[] = [
     { id: "default1", name: "Home Cleaning" },
     { id: "default2", name: "Plumbing" },
     { id: "default3", name: "Electrician" },
-    // ... add more if needed
+    
   ];
   useEffect(() => {
     if (!isLocation) {
@@ -37,8 +43,8 @@ export default function Section2() {
     }
   }, [isLocation]);
   const { data: services } = api.stores.getServices.useQuery(
-    { location: location ?? "" },
-    { enabled: !!location } // Query will only run if userId is truthy
+    { location: initialLocation ?? "" },
+    { enabled: !!initialLocation }
   );
   const displayedServices = services?.length ? services : defaultServices;
 
@@ -54,7 +60,7 @@ export default function Section2() {
           </div>
         </div>
         <div className="flex h-full justify-center overflow-y-hidden ">
-          <div className="flex max-w-screen-xl gap-8 overflow-x-auto whitespace-nowrap px-4">
+          <div className="flex max-w-screen-xl gap-8 overflow-x-auto whitespace-nowrap px-4 scrollbar-hide">
             {displayedServices.map((service, index) => {
               if (typeof service === "string") {
                 // Handle default services (which are just strings)

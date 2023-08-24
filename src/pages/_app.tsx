@@ -8,6 +8,7 @@ import "../utils/i18n";
 import { viVN, enUS } from "@clerk/localizations";
 import { useRouter } from "next/router";
 import TopNav from "~/components/NavBar/TopNav";
+import Footer from "~/components/Footer/Footer";
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const { locale } = router;
@@ -30,6 +31,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             <Component {...pageProps} />
           </div>
         </div>
+        <Footer />
       </div>
     </ClerkProvider>
   );
