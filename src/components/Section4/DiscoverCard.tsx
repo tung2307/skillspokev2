@@ -1,8 +1,6 @@
 import { useTranslation } from "react-i18next";
 import servicesData from "../../utils/services.json";
 import Image from "next/image";
-import { useState } from "react";
-
 const services: ServicesType = servicesData as ServicesType;
 
 type Props = {

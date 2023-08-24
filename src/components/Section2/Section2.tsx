@@ -2,11 +2,25 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { api } from "~/utils/api";
 import ServiceCard from "./ServiceCard";
+import cities from "../../utils/city.json"; // Adjust path to where city.json is located
+
 type ServiceProps = {
   id: string;
   name: string;
 };
 
+function getClosestCity(cityName: string) {
+  // Convert both cityName and cities in the list to lowercase for case-insensitive comparison
+  const lowercasedCityName = cityName.toLowerCase();
+
+  // Find the best matching city
+  const matchingCity = cities.find(
+    (city) => city.toLowerCase() === lowercasedCityName
+  );
+
+  // If there's a direct match, return it. Otherwise, return the original city name.
+  return matchingCity ?? cityName;
+}
 export default function Section2() {
   const { t } = useTranslation();
   const [isLocation, setIsLocation] = useState(false);
@@ -21,7 +35,6 @@ export default function Section2() {
     { id: "default1", name: "Home Cleaning" },
     { id: "default2", name: "Plumbing" },
     { id: "default3", name: "Electrician" },
-    
   ];
   useEffect(() => {
     if (!isLocation) {
@@ -33,7 +46,8 @@ export default function Section2() {
           return response.json();
         })
         .then((json: { location: { city: string } }) => {
-          setLocation(json.location.city);
+          const vietnameseCity = getClosestCity(json.location.city);
+          setLocation(vietnameseCity);
         })
         .catch((error) => {
           console.error("There was a problem fetching the location:", error);
