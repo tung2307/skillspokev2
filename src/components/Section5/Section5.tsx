@@ -16,7 +16,7 @@ export default function Section5() {
 
   return (
     <>
-      <div className="flex h-full w-full justify-center pb-10 sm:h-[26rem] ">
+      <div className="flex h-full w-full justify-center pb-10 md:h-[26rem] ">
         <div className="flex w-full flex-col pt-10 text-center md:w-[75vw]">
           <div className="text-2xl font-semibold md:text-4xl">
             {t("category")}
