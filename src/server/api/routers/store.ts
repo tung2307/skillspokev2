@@ -36,21 +36,33 @@ export const storeRouter = createTRPCRouter({
         const store = await ctx.prisma.store.findMany({
           where: {
             service: input.service,
-            city: input.location,
-            remote: true,
+            district: input.location,
           },
         });
         return store;
       }
       return null;
     }),
-  getStoreProfile: privateProcedure
+  getStoreUserProfile: privateProcedure
     .input(z.object({ userId: z.string() }))
     .query(async ({ ctx, input }) => {
       if (input.userId != "") {
-        const store = await ctx.prisma.store.findFirst({
+        const store = await ctx.prisma.store.findMany({
           where: {
             userId: input.userId,
+          },
+        });
+        return store;
+      }
+      return null;
+    }),
+  getStoreProfile: publicProcedure
+    .input(z.object({ storeId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      if (input.storeId != "") {
+        const store = await ctx.prisma.store.findFirst({
+          where: {
+            id: input.storeId,
           },
         });
         return store;
@@ -61,22 +73,36 @@ export const storeRouter = createTRPCRouter({
     .input(
       z.object({
         name: z.string().min(1).max(280),
-        service: z.string(), // Maximum of 100 characters for service name
+        service: z.string(),
         remote: z.boolean(),
-        phone: z.string(), // Assuming phone numbers will be between 10 to 15 characters
+        phone: z.string(),
         address1: z.string(),
-        address2: z.string(), // This is optional, so min is 0
+        address2: z.string(),
         ward: z.string(),
         district: z.string(),
         city: z.string(),
+        introduction: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const store = await ctx.prisma.store.create({
-        data: {
-          ...input,
+      const isStore = await ctx.prisma.store.findFirst({
+        where: {
+          name: input.name,
+          service: input.service,
+          district: input.district,
+          city: input.city,
         },
       });
-      return store;
+      if (isStore) {
+        throw new Error("A store with the provided details already exists.");
+      }
+      if (isStore === null) {
+        const store = await ctx.prisma.store.create({
+          data: {
+            ...input,
+          },
+        });
+        return store;
+      }
     }),
 });

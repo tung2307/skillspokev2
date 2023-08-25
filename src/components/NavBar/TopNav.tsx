@@ -44,7 +44,7 @@ export default function TopNav() {
     if (data === null && user.isSignedIn) {
       mutate({ name: user.user?.fullName ?? "" });
     }
-  }, [user.user?.fullName, data, mutate]);
+  }, [user.user?.fullName, data, mutate, user.isLoaded]);
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
@@ -92,7 +92,7 @@ export default function TopNav() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > window.innerHeight) {
+      if (window.scrollY > window.innerHeight && router.pathname == "/") {
         // window.innerHeight is the height of the viewport
         setIsNavVisible(false);
       } else {
@@ -105,7 +105,7 @@ export default function TopNav() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [router.pathname]);
 
   return (
     <>
@@ -144,7 +144,7 @@ export default function TopNav() {
                         {user.user.fullName}
                       </div>
                       <div className="w-full border-b"></div>
-                      <Link href={`/profile/${user.user.id}`} passHref>
+                      <Link href={`/userProfile/${user.user.id}`} passHref>
                         <div className="block w-full p-3 text-left hover:bg-gray-100">
                           {t("fullProfile")}
                         </div>
@@ -210,7 +210,7 @@ export default function TopNav() {
                         {user.user.fullName}
                       </div>
                       <div className="w-full border-b"></div>
-                      <Link href={`/profile/${user.user.id}`}>
+                      <Link href={`/userProfile/${user.user.id}`}>
                         <div className="block w-full p-3 text-left hover:bg-gray-100">
                           {t("fullProfile")}
                         </div>

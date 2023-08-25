@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { api } from "~/utils/api";
 
@@ -9,34 +8,20 @@ export default function Search() {
   const { service, district } = router.query; // Destructuring the query parameters
   const serviceValue = Array.isArray(service) ? service[0] : service;
   const districtValue = Array.isArray(district) ? district[0] : district;
-  const [isSearch, setIsSearch] = useState(false);
   const { t } = useTranslation();
-  const [hasQueried, setHasQueried] = useState(false);
 
-  useEffect(() => {
-    if (!hasQueried) {
-      setHasQueried(true);
-    }
-  }, []);
-
-  const { data: searchResult } = api.stores.getSearch.useQuery(
-    {
-      service: serviceValue ?? "",
-      location: districtValue ?? "",
-    },
-    { enabled: !!(serviceValue && districtValue && !hasQueried) }
-  );
-  useEffect(() => {
-    if (searchResult?.length === undefined) return;
-    if (searchResult?.length > 0) {
-      setIsSearch(true);
-    }
-  }, [searchResult]);
+  const { data: searchResult, isLoading } = api.stores.getSearch.useQuery({
+    service: serviceValue ?? "",
+    location: districtValue ?? "",
+  });
+  if (isLoading) {
+    return <div>Loading...</div>; // This can be a spinner or any other loading indicator you'd prefer.
+  }
   return (
     <>
       <div className="flex flex-col pb-5 md:border-b md:pb-10">
         <div className="w-full pb-10">
-          {isSearch ? (
+          {searchResult?.length ? (
             <>Show the search</>
           ) : (
             <>

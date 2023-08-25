@@ -23,7 +23,7 @@ const ProfilePage = () => {
     { enabled: !!userId } // Query will only run if userId is truthy
   );
 
-  const { data: storeData } = api.stores.getStoreProfile.useQuery(
+  const { data: storeData } = api.stores.getStoreUserProfile.useQuery(
     { userId: userData?.id ?? "" },
     { enabled: userData?.role === "PRO" && !!userData?.id }
   );

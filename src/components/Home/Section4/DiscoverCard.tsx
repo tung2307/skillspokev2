@@ -36,12 +36,14 @@ export default function DiscoverCard({ category, location }: Props) {
                 <Image
                   src={imagePath + `${service}` + ".png"}
                   alt={t(`services.${service}`)}
-                  fill
+                  width={300}
+                  height={250}
                   quality={100}
                   sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 100vw, 1000px"
-                  className="absolute inset-0 flex items-center justify-center bg-white"
+                  className="absolute left-0 top-0 h-full w-full object-cover object-center"
                 />
               </div>
+
               <div className="flex justify-center py-3 font-semibold">
                 {t(`services.${service}`)}
               </div>

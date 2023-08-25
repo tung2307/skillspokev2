@@ -9,6 +9,19 @@ import { useTranslation } from "react-i18next";
 import { api } from "~/utils/api";
 import district from "../../utils/district.json";
 import city from "../../utils/city.json";
+import { useRouter } from "next/router";
+type SpecificFormData = {
+  name: string;
+  service: string;
+  remote: boolean;
+  phone: string;
+  address1: string;
+  address2: string;
+  ward: string;
+  district: string;
+  city: string;
+  introduction: string;
+};
 
 function removeDiacritics(str: string) {
   return str
@@ -18,6 +31,7 @@ function removeDiacritics(str: string) {
     .replace(/đ/g, "d"); // Convert lowercase đ to d
 }
 export default function Store() {
+  const router = useRouter();
   const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: "",
@@ -29,6 +43,7 @@ export default function Store() {
     ward: "",
     district: "",
     city: "",
+    introduction: "",
   });
 
   const [serviceInput, setServiceInput] = useState("");
@@ -123,17 +138,41 @@ export default function Store() {
     }
   }, [formData.city]);
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
+
+    let value: string | boolean;
+
+    if (target instanceof HTMLInputElement && target.type === "checkbox") {
+      value = target.checked;
+    } else {
+      value = target.value;
+    }
+
     const name = target.name;
 
-    setFormData((prevState) => ({
+    setFormData((prevState: SpecificFormData) => ({
       ...prevState,
       [name]: value,
     }));
   };
-  const { mutate } = api.stores.create.useMutation({});
+
+  const { mutate } = api.stores.create.useMutation({
+    onSuccess: (data) => {
+      console.log("Mutation was successful:", data);
+      alert(`${t("createSuccessfull")}`);
+      if (data !== undefined) {
+        void router.push(`/${data.id}`);
+      }
+    },
+    onError: (error) => {
+      console.error("Mutation failed:", error);
+      alert(`${t("createFailed")}: ${error.message}`);
+      // Handle error case here (e.g., show an error message to the user)
+    },
+  });
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -153,14 +192,25 @@ export default function Store() {
       return;
     }
 
-    const isValidCity = district.includes(formData.city);
+    const isValidCity = city.includes(formData.city);
     if (!isValidCity) {
       alert("Invalid city!"); // You can replace this with a more user-friendly error handling mechanism
       return;
     }
+    const matchingServiceObj = serviceWithMetadata.find(
+      (item) => item.translation === serviceInput
+    );
+
+    // Check if matchingServiceObj is defined and extract the key
+    const serviceKeyForSubmission = matchingServiceObj
+      ? matchingServiceObj.key
+      : null;
 
     // If validation passes, proceed with the mutation
-    mutate({ ...formData });
+    mutate({
+      ...formData,
+      service: serviceKeyForSubmission?.toString() ?? "",
+    });
   };
 
   return (
@@ -325,7 +375,16 @@ export default function Store() {
                 </div>
               )}
             </div>
-
+            <div className="pb-2 pt-1">
+              <label className=" block ">{t("store.introduction")}:</label>
+              <textarea
+                name="introduction"
+                value={formData.introduction}
+                onChange={handleInputChange}
+                className="w-full resize-none border p-1 outline-none"
+                rows={4} // You can adjust the number of rows as needed
+              ></textarea>
+            </div>
             <div className="mt-2">
               <button
                 type="submit"

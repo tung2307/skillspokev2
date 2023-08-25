@@ -1,7 +1,11 @@
 // import { clerkClient } from "@clerk/nextjs/server";
 // import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { createTRPCRouter, privateProcedure } from "~/server/api/trpc";
+import {
+  createTRPCRouter,
+  privateProcedure,
+  publicProcedure,
+} from "~/server/api/trpc";
 
 export const userRouter = createTRPCRouter({
   //createUser: privateProcedure.input(z.object({ userId: z.string() })),
@@ -12,6 +16,19 @@ export const userRouter = createTRPCRouter({
         const user = await ctx.prisma.user.findFirst({
           where: {
             clerkId: input.userId,
+          },
+        });
+        return user;
+      }
+      return null;
+    }),
+  getUserStoreProfile: publicProcedure
+    .input(z.object({ userId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      if (input.userId !== "") {
+        const user = await ctx.prisma.user.findFirst({
+          where: {
+            id: input.userId,
           },
         });
         return user;

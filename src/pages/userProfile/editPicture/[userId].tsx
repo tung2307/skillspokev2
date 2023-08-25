@@ -8,7 +8,7 @@ export default function Page() {
   const userId =
     typeof router.query.userId === "string" ? router.query.userId : "";
   function handleClick() {
-    void router.push("/profile/" + userId);
+    void router.push("/userProfile/" + userId);
   }
   useEffect(() => {
     if (userId != user.user?.id || !user.isSignedIn) {

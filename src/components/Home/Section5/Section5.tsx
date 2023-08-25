@@ -16,7 +16,7 @@ export default function Section5() {
 
   return (
     <>
-      <div className="flex h-full w-full justify-center pb-10 md:h-[26rem] ">
+      <div className="flex h-full w-full justify-center pb-16 md:mb-10 md:h-[26rem]">
         <div className="flex w-full flex-col pt-10 text-center md:w-[75vw]">
           <div className="text-2xl font-semibold md:text-4xl">
             {t("category")}
@@ -26,7 +26,7 @@ export default function Section5() {
               {category.map((item, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-center rounded-xl p-2 hover:cursor-pointer hover:shadow-lg"
+                  className="flex flex-col items-center justify-center gap-2 rounded-xl p-2 hover:cursor-pointer hover:shadow-lg"
                 >
                   <div className="relative h-[75px] w-[75px]">
                     <Image
@@ -38,6 +38,7 @@ export default function Section5() {
                       className="absolute inset-0 flex items-center justify-center bg-white"
                     />
                   </div>
+                  <div>{t(`${item}`)}</div>
                 </div>
               ))}
             </div>

@@ -13,7 +13,7 @@ datasource db {
 
 model Store {
     id           String         @id @default(uuid())
-    userId       String?        @default("none")
+    userId       String?
     name         String
     service      String
     remote       Boolean        @default(false)
@@ -24,6 +24,8 @@ model Store {
     district     String
     city         String
     country      String         @default("Việt Nam")
+    introduction String?
+    verify       Boolean        @default(false)
     createdAt    DateTime       @default(now())
     updatedAt    DateTime       @updatedAt
     storePicture StorePicture[]
