@@ -4,7 +4,7 @@ export default function Section6() {
   const { t } = useTranslation();
   return (
     <>
-      <div className=" h-full w-full bg-gradient-to-l from-blue-200 to-white pb-10 ">
+      <div className=" h-full w-full bg-gradient-to-l from-blue-200 to-white pb-10 hover:cursor-default">
         <div className="flex flex-col gap-2 pt-5 md:gap-10">
           <div className="flex justify-center text-2xl font-semibold md:text-4xl">
             {t("quickEasy")}

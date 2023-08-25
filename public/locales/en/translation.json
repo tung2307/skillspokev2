@@ -47,6 +47,7 @@
   "findClose": "Please choose nearby location to you.",
   "createSuccessfull":"Create Successfull",
   "createFailed": "Create Failed",
+  "noInfo":"No information provided",
   "services": {
     "Makeup Artist": "Makeup Artist",
     "Plumbing": "Plumbing",

@@ -24,7 +24,7 @@ model Store {
     district     String
     city         String
     country      String         @default("Việt Nam")
-    introduction String?
+    introduction String?        @db.Text
     verify       Boolean        @default(false)
     createdAt    DateTime       @default(now())
     updatedAt    DateTime       @updatedAt

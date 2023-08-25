@@ -36,7 +36,7 @@ export const storeRouter = createTRPCRouter({
         const store = await ctx.prisma.store.findMany({
           where: {
             service: input.service,
-            district: input.location,
+            OR: [{ district: input.location }, { remote: true }],
           },
         });
         return store;

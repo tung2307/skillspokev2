@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
+import SearchResult from "~/components/SearchPage/SearchResult";
 import { api } from "~/utils/api";
 
 export default function Search() {
@@ -20,11 +21,17 @@ export default function Search() {
   return (
     <>
       <div className="flex flex-col pb-5 md:border-b md:pb-10">
-        <div className="w-full pb-10">
-          {searchResult?.length ? (
-            <>Show the search</>
-          ) : (
-            <>
+        {searchResult?.length ? (
+          <>
+            <div className="flex w-full justify-center pb-10 pt-10">
+              {searchResult.map((result, index) => (
+                <SearchResult key={index} data={result} />
+              ))}
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="w-full pb-10">
               <div className="p-5 md:p-10">
                 <div className="text-base font-bold md:text-xl">
                   {t("noServiceFound", {
@@ -34,21 +41,21 @@ export default function Search() {
                 </div>
                 <div>{t("findClose")} </div>
               </div>
-            </>
-          )}
+            </div>
+          </>
+        )}
+      </div>
+      <div>
+        <div className="flex justify-center">
+          <p className="mb-3 mt-3 w-[90%] text-center">{t("addStore")}</p>
         </div>
-        <div>
-          <div className="flex justify-center">
-            <p className="mb-3 mt-3 w-[90%] text-center">{t("addStore")}</p>
-          </div>
 
-          <div className="flex justify-center">
-            <Link href="/add/store">
-              <p className="flex w-40 justify-center rounded-lg border bg-[#4682B4] p-2 text-white hover:bg-white hover:text-[#4682B4]">
-                {t("create")}
-              </p>
-            </Link>
-          </div>
+        <div className="flex justify-center">
+          <Link href="/add/store">
+            <p className="flex w-40 justify-center rounded-lg border bg-[#4682B4] p-2 text-white hover:bg-white hover:text-[#4682B4]">
+              {t("create")}
+            </p>
+          </Link>
         </div>
       </div>
     </>

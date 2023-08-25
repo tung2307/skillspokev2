@@ -215,7 +215,7 @@ export default function TopNav() {
                           {t("fullProfile")}
                         </div>
                       </Link>
-                      <Link href={`/search/`}>
+                      <Link href={`/search/page`}>
                         <div className="block w-full p-3 text-left hover:bg-gray-100">
                           {t("search")}
                         </div>
