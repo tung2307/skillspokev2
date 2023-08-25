@@ -26,8 +26,8 @@ export default function ServiceCard({ service }: ServiceDataProps) {
             <Image
               src={imagePath + `${service.name}` + ".png"}
               alt={t(`services.${service.name}`)}
-              layout="fill"
-              objectFit="cover"
+              fill
+              sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 100vw, 1000px"
               className="absolute inset-0 flex items-center justify-center rounded-lg bg-white"
             />
           </div>

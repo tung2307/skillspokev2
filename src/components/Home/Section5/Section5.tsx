@@ -26,16 +26,15 @@ export default function Section5() {
               {category.map((item, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-center rounded p-2 hover:cursor-pointer hover:border-b-2"
+                  className="flex items-center justify-center rounded-xl p-2 hover:cursor-pointer hover:shadow-lg"
                 >
-                  <div className="relative h-[75px] w-[75px] border-b">
+                  <div className="relative h-[75px] w-[75px]">
                     <Image
                       src={imagePath + `${item}` + ".png"}
                       alt={t(`${item}`)}
-                      width={75}
-                      height={75}
-                      objectFit="cover"
+                      fill
                       quality={100}
+                      sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 100vw, 1000px"
                       className="absolute inset-0 flex items-center justify-center bg-white"
                     />
                   </div>

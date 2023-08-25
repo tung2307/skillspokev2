@@ -39,6 +39,8 @@
   "find": "Find",
   "confirm": "Confirm",
   "review": "Review",
+  "noServiceFound": "No {{service}} Service Found in {{district}}",
+  "findClose": "Please choose nearby location to you.",
   "services": {
     "Makeup Artist": "Makeup Artist",
     "Plumbing": "Plumbing",
@@ -101,5 +103,18 @@
     "Grocery Stores": "Grocery Stores",
     "Clothing Stores": "Clothing Stores",
     "Electronics Stores": "Electronics Stores"
+  },
+
+  "store": {
+    "createStore": "Create Store",
+    "name": "Store name",
+    "service": "Service",
+    "remote": "Remote",
+    "phone": "Phone",
+    "address1": "Address 1",
+    "address2": "Address 2",
+    "ward": "Ward",
+    "district": "District",
+    "city": "City"
   }
 }

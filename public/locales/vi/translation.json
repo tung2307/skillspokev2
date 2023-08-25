@@ -39,6 +39,8 @@
   "customerService": "Chăm Sóc Khách Hàng",
   "aboutSkillspoke": "Về Skillspoke",
   "connectUs": "Kết Nối",
+  "noServiceFound": "Không tìm thấy dịch vụ {{service}} tại {{district}}",
+  "findClose": "Vui lòng chọn một địa điểm gần bạn.",
   "services": {
     "Makeup Artist": "Thợ trang điểm",
     "Plumbing": "Thợ ống nước",
@@ -101,5 +103,17 @@
     "Grocery Stores": "Cửa hàng tạp hóa",
     "Clothing Stores": "Cửa hàng quần áo",
     "Electronics Stores": "Cửa hàng điện tử"
+  },
+  "store": {
+    "createStore": "Tạo Doanh Nghiệp",
+    "name": "Tên Doanh Nghiệp",
+    "service": "Dịch Vụ",
+    "remote": "Remote",
+    "phone": "Số Điện Thoại",
+    "address1": "Địa Chỉ 1",
+    "address2": "Địa Chỉ 2",
+    "ward": "Phường",
+    "district": "Quận/Huyện",
+    "city": "Thành Phố"
   }
 }

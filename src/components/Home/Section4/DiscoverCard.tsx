@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import servicesData from "../../utils/services.json";
+import servicesData from "../../../utils/services.json";
 import Image from "next/image";
 const services: ServicesType = servicesData as ServicesType;
 
@@ -36,9 +36,9 @@ export default function DiscoverCard({ category, location }: Props) {
                 <Image
                   src={imagePath + `${service}` + ".png"}
                   alt={t(`services.${service}`)}
-                  layout="fill"
-                  objectFit="cover"
+                  fill
                   quality={100}
+                  sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 100vw, 1000px"
                   className="absolute inset-0 flex items-center justify-center bg-white"
                 />
               </div>

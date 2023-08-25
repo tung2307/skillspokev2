@@ -1,9 +1,9 @@
 import { useTranslation } from "react-i18next";
 
 import Image from "next/image";
-import mobileApp from "../../../public/images/appLogo/Group 25.svg";
-import appleLink from "../../../public/images/appLogo/0788d2fcf65f7962bdc7fb4775ddcd0a 1.svg";
-import androidLink from "../../../public/images/appLogo/c31ead5a632deb79820919d0e8c0b97b 1.svg";
+import mobileApp from "../../../../public/images/appLogo/Group 25.svg";
+import appleLink from "../../../../public/images/appLogo/0788d2fcf65f7962bdc7fb4775ddcd0a 1.svg";
+import androidLink from "../../../../public/images/appLogo/c31ead5a632deb79820919d0e8c0b97b 1.svg";
 import Link from "next/link";
 
 export default function MobileApp() {

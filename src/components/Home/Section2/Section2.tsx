@@ -2,31 +2,49 @@ import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { api } from "~/utils/api";
 import ServiceCard from "./ServiceCard";
-import cities from "../../utils/city.json"; // Adjust path to where city.json is located
-
+import cities from "../../../utils/city.json"; // Adjust path to where city.json is located
+import district from "../../../utils/district.json";
 type ServiceProps = {
   id: string;
   name: string;
 };
+type ApiResponse = {
+  location: {
+    city: string;
+  };
+};
+
+function removeDiacritics(str: string) {
+  return str
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // This removes most of the diacritics
+    .replace(/Đ/g, "D") // Convert uppercase Đ to D
+    .replace(/đ/g, "d"); // Convert lowercase đ to d
+}
 
 function getClosestCity(cityName: string) {
-  // Convert both cityName and cities in the list to lowercase for case-insensitive comparison
-  const lowercasedCityName = cityName.toLowerCase();
-
-  // Find the best matching city
+  cityName = cityName.replace(/city/i, "").trim();
+  const processedCityName = removeDiacritics(cityName).toLowerCase();
   const matchingCity = cities.find(
-    (city) => city.toLowerCase() === lowercasedCityName
+    (city) => removeDiacritics(city).toLowerCase() === processedCityName
   );
 
-  // If there's a direct match, return it. Otherwise, return the original city name.
+  if (!matchingCity) {
+    const matchingCity = district.find(
+      (province) =>
+        removeDiacritics(province).toLowerCase() === processedCityName
+    );
+    return matchingCity ?? cityName;
+  }
+
   return matchingCity ?? cityName;
 }
+
 export default function Section2() {
   const { t } = useTranslation();
   const [isLocation, setIsLocation] = useState(false);
   const [location, setLocation] = useState("Loading...");
   const [initialLocation, setInitialLocation] = useState(location);
-
   useEffect(() => {
     setInitialLocation(location);
   }, [location]); // Empty dependency array ensures this effect runs only once when the component mounts
@@ -45,7 +63,7 @@ export default function Section2() {
           }
           return response.json();
         })
-        .then((json: { location: { city: string } }) => {
+        .then((json: ApiResponse) => {
           const vietnameseCity = getClosestCity(json.location.city);
           setLocation(vietnameseCity);
         })

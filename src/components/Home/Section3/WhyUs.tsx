@@ -1,5 +1,5 @@
 import Image from "next/image";
-import ssLogo from "../../../public/images/Skillspoke_fb.png";
+import ssLogo from "../../../../public/images/Skillspoke_fb.png";
 import { useTranslation } from "react-i18next";
 
 export default function WhyUs() {

@@ -6,9 +6,12 @@ import SearchIcon from "@mui/icons-material/Search";
 import { useTranslation } from "react-i18next";
 
 function removeDiacritics(str: string) {
-  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  return str
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // This removes most of the diacritics
+    .replace(/Đ/g, "D") // Convert uppercase Đ to D
+    .replace(/đ/g, "d"); // Convert lowercase đ to d
 }
-
 export default function Search() {
   const { t } = useTranslation();
   const router = useRouter();

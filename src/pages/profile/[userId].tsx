@@ -58,7 +58,7 @@ const ProfilePage = () => {
             <>Customer profile page</>
           ) : (
             <>
-              <ProPage userData={userData} storeData={storeData} />
+              <ProPage userData={userData} />
             </>
           )}
         </div>

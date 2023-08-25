@@ -13,8 +13,9 @@ datasource db {
 
 model Store {
     id           String         @id @default(uuid())
-    userId       String         @default("none")
+    userId       String?        @default("none")
     name         String
+    service      String
     remote       Boolean        @default(false)
     phone        String?
     address1     String?
@@ -22,13 +23,10 @@ model Store {
     ward         String?
     district     String
     city         String
-    country      String         @default("việt nam")
+    country      String         @default("Việt Nam")
     createdAt    DateTime       @default(now())
     updatedAt    DateTime       @updatedAt
-    user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
     storePicture StorePicture[]
-
-    @@index([userId])
 }
 
 model StorePicture {
@@ -42,16 +40,6 @@ model StorePicture {
     @@index([storeId])
 }
 
-model Email {
-    id       String @id @default(cuid())
-    email    String
-    provider String
-    userId   String
-    User     User?  @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-    @@index([userId])
-}
-
 model User {
     id      String  @id @default(cuid())
     clerkId String  @unique
@@ -60,8 +48,6 @@ model User {
 
     // Non- Next auth
     profile Profile[]
-    stores  Store[]
-    email   Email[]
 }
 
 model Profile {

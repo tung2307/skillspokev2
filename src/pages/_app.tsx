@@ -27,7 +27,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <div className="flex flex-col ">
         <TopNav />
         <div className="mx-auto w-screen">
-          <div className="min-h-screen flex-grow">
+          <div className="flex-grow">
             <Component {...pageProps} />
           </div>
         </div>
