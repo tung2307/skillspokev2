@@ -25,7 +25,7 @@ export default function SearchResult({ data }: StoreDataProps) {
             <div className="flex flex-col">
               <div className="flex items-center justify-between">
                 <div className="text-3xl font-bold">{data.name}</div>
-                <div>No rating</div>
+                <div>{t("noRating")}</div>
               </div>
               <div>
                 {data.phone ? (

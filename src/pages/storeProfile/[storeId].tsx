@@ -48,7 +48,7 @@ export default function StoreProfile() {
                 <div className="flex h-full flex-grow items-center text-center md:text-left ">
                   <div className="flex w-full flex-col gap-3 ">
                     <div className="text-4xl font-bold">{storeData?.name}</div>
-                    <div className="text-xl">Rating</div>
+                    <div className="text-xl">{t("noRating")}</div>
                     <div className="flex w-full justify-center md:justify-start">
                       <div
                         className="w-20 rounded-lg border-2  text-center text-lg  hover:cursor-pointer hover:bg-[#4682B4] hover:text-white"
@@ -61,7 +61,9 @@ export default function StoreProfile() {
                 </div>
               </div>
               <div className="flex flex-col gap-2 border-t">
-                <div className="pt-5 text-xl font-bold">Introduction</div>
+                <div className="pt-5 text-xl font-bold">
+                  {t("introduction")}
+                </div>
                 <div>
                   {storeData?.introduction ? (
                     <>{storeData.introduction}</>
@@ -71,9 +73,9 @@ export default function StoreProfile() {
                 </div>
               </div>
               <div className="flex flex-col gap-1 border-t">
-                <div className="pt-5 text-xl font-bold">Overview</div>
+                <div className="pt-5 text-xl font-bold">{t("overview")}</div>
                 <div className="flex flex-row">
-                  <div>Owner:&nbsp;</div>
+                  <div>{t("owner")}:&nbsp;</div>
                   <div className="font-bold">
                     {userData?.id ? (
                       <>{userData?.name}</>
@@ -82,7 +84,7 @@ export default function StoreProfile() {
                         <div className="flex flex-row">
                           {t("noInfo")}.&nbsp;
                           <div className="text-blue-500 hover:cursor-pointer hover:underline">
-                            Claim the store
+                            {t("claim")}
                           </div>
                         </div>
                       </>
@@ -90,7 +92,7 @@ export default function StoreProfile() {
                   </div>
                 </div>
                 <div className="flex flex-row">
-                  <div>Phone:&nbsp;</div>
+                  <div>{t("phone")}:&nbsp;</div>
                   <div className="">
                     {storeData?.phone ? (
                       <>{storeData?.phone}</>
@@ -100,7 +102,7 @@ export default function StoreProfile() {
                   </div>
                 </div>
                 <div className="flex flex-row">
-                  <div>Address:&nbsp;</div>
+                  <div>{t("address")}:&nbsp;</div>
                   <div className="flex flex-row">
                     {storeData?.address1 ? (
                       <>
@@ -122,29 +124,27 @@ export default function StoreProfile() {
                 </div>
                 {storeData?.remote ? (
                   <div className="flex flex-row">
-                    Also serve:&nbsp;<p className="font-bold">Online</p>
+                    {t("alsoServe")}:&nbsp;<p className="font-bold">Online</p>
                   </div>
                 ) : null}
                 {storeData?.verify ? (
-                  <p className="font-bold text-green-500">
-                    Background Checked!
-                  </p>
+                  <p className="font-bold text-green-500">{t("bg-check")}!</p>
                 ) : (
-                  <p className="font-bold text-red-500">No Background Check!</p>
+                  <p className="font-bold text-red-500">{t("!bg-check")}!</p>
                 )}
               </div>
               <div className="flex flex-col gap-2 border-t">
-                <div className="pt-5 text-xl font-bold">Project</div>
+                <div className="pt-5 text-xl font-bold">{t("project")}</div>
                 <Project />
               </div>
               <div className="flex flex-col items-start gap-2 border-t">
-                <div className="pt-5 text-xl font-bold">Specialist</div>
+                <div className="pt-5 text-xl font-bold">{t("specialist")}</div>
                 <div className="h-auto rounded-lg border p-1">
-                  {storeData?.service}
+                  {t(`services.${storeData?.service}`)}
                 </div>
               </div>
               <div className="flex flex-col gap-2 border-t">
-                <div className="pt-5 text-xl font-bold">Review</div>
+                <div className="pt-5 text-xl font-bold">{t("review")}</div>
                 <Review />
               </div>
             </div>
