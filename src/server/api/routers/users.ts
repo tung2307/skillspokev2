@@ -9,13 +9,27 @@ import {
 
 export const userRouter = createTRPCRouter({
   //createUser: privateProcedure.input(z.object({ userId: z.string() })),
-  getUser: privateProcedure
+  getUserbyClerk: privateProcedure
     .input(z.object({ userId: z.string() }))
     .query(async ({ ctx, input }) => {
       if (input.userId != "") {
         const user = await ctx.prisma.user.findFirst({
           where: {
             clerkId: input.userId,
+          },
+        });
+        return user;
+      }
+      return null;
+    }),
+  getUserbyId: privateProcedure
+    .input(z.object({ userId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      if (input.userId != "") {
+        console.log(input.userId);
+        const user = await ctx.prisma.user.findFirst({
+          where: {
+            id: input.userId,
           },
         });
         return user;

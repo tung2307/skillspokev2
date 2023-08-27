@@ -16,14 +16,14 @@ export default function Search() {
     location: districtValue ?? "",
   });
   if (isLoading) {
-    return <div>Loading...</div>; // This can be a spinner or any other loading indicator you'd prefer.
+    return <div></div>; // This can be a spinner or any other loading indicator you'd prefer.
   }
   return (
     <>
-      <div className="flex flex-col pb-5 md:border-b md:pb-10">
+      <div className="flex flex-col pb-2 md:border-b md:pb-10">
         {searchResult?.length ? (
           <>
-            <div className="flex w-full justify-center pb-10 pt-10">
+            <div className="flex w-full justify-center pb-5 md:pb-10 md:pt-10">
               {searchResult.map((result, index) => (
                 <SearchResult key={index} data={result} />
               ))}

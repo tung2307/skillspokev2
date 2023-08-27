@@ -10,6 +10,7 @@ const SignUpPage = () => {
           path={`${locale === defaultLocale ? "" : "/" + locale}/sign-in`}
           signInUrl={`${locale === defaultLocale ? "" : "/" + locale}/sign-up
 `}
+          redirectUrl={"/"}
         />
       </div>
     </>

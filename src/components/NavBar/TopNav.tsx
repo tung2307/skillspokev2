@@ -26,7 +26,7 @@ export default function TopNav() {
     setInitialUserId(userId);
   }, [userId]); // Empty dependency array ensures this effect runs only once when the component mounts
 
-  const { data, error } = api.users.getUser.useQuery(
+  const { data, error } = api.users.getUserbyClerk.useQuery(
     { userId: initialUserId ?? "" },
     { enabled: !!initialUserId } // Query will only run if initialUserId is truthy
   );

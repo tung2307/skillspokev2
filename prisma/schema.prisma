@@ -29,6 +29,22 @@ model Store {
     createdAt    DateTime       @default(now())
     updatedAt    DateTime       @updatedAt
     storePicture StorePicture[]
+    Review       Review[]
+}
+
+model Review {
+    id          String   @id @default(cuid())
+    userId      String
+    storeId     String
+    rating      Int
+    description String   @db.Text
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    store       Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([storeId])
+    @@index([userId])
 }
 
 model StorePicture {
@@ -50,6 +66,7 @@ model User {
 
     // Non- Next auth
     profile Profile[]
+    Review  Review[]
 }
 
 model Profile {

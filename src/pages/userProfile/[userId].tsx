@@ -18,7 +18,7 @@ const ProfilePage = () => {
     }
   }, [userId, user.user?.id, user.isSignedIn, router]);
 
-  const { data: userData } = api.users.getUser.useQuery(
+  const { data: userData } = api.users.getUserbyClerk.useQuery(
     { userId: userId ?? "" },
     { enabled: !!userId } // Query will only run if userId is truthy
   );
@@ -30,8 +30,8 @@ const ProfilePage = () => {
 
   return user.isSignedIn ? (
     <>
-      <div className="flex h-auto flex-col md:h-screen md:flex-row xl:flex-row">
-        <div className=" mb-5 w-full border-b pb-5 pt-10 md:w-80 md:border-r xl:w-80">
+      <div className="flex h-auto flex-col border-b md:h-screen md:flex-row xl:flex-row">
+        <div className="w-full border-b pt-10 md:w-80 md:border-b-0 md:border-r xl:w-80">
           <div className="flex justify-center">
             <div className="flex w-full flex-col items-center">
               <ProfileImage src={user.user?.imageUrl} />
