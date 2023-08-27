@@ -4,7 +4,7 @@ import {
   privateProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-
+import { Store } from "@prisma/client";
 export const storeRouter = createTRPCRouter({
   getServices: publicProcedure
     .input(z.object({ location: z.string() }))
@@ -45,7 +45,7 @@ export const storeRouter = createTRPCRouter({
     }),
   getStoreUserProfile: privateProcedure
     .input(z.object({ userId: z.string() }))
-    .query(async ({ ctx, input }) => {
+    .query(async ({ ctx, input }): Promise<Store[] | null> => {
       if (input.userId != "") {
         const store = await ctx.prisma.store.findMany({
           where: {
@@ -96,13 +96,13 @@ export const storeRouter = createTRPCRouter({
       if (isStore) {
         throw new Error("A store with the provided details already exists.");
       }
-      if (isStore === null) {
-        const store = await ctx.prisma.store.create({
-          data: {
-            ...input,
-          },
-        });
-        return store;
-      }
+
+      console.log(input);
+      const store = await ctx.prisma.store.create({
+        data: {
+          ...input,
+        },
+      });
+      return store;
     }),
 });

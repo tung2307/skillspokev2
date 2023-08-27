@@ -23,6 +23,31 @@ type SpecificFormData = {
   introduction: string;
 };
 
+function Modal({ onYes, onNo }: { onYes: () => void; onNo: () => void }) {
+  return (
+    <div className="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-50">
+      <div className="w-96 rounded bg-white p-8 shadow-lg">
+        <h1>Create Store Successfull</h1>
+        <h2>Are you the owner?</h2>
+        <div className="mt-4 flex justify-center gap-5">
+          <button
+            className="rounded border px-8 py-2 hover:bg-[#4682B4] hover:text-white"
+            onClick={onYes}
+          >
+            Yes
+          </button>
+          <button
+            className="rounded border px-8 py-2 hover:bg-[#4682B4] hover:text-white"
+            onClick={onNo}
+          >
+            No
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function removeDiacritics(str: string) {
   return str
     .normalize("NFD")
@@ -48,6 +73,8 @@ export default function Store() {
 
   const [serviceInput, setServiceInput] = useState("");
   const [suggestions, setSuggestions] = useState<Array<string>>([]);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [mutationData, setMutationData] = useState("");
 
   const serviceKeys = Object.keys(t("services", { returnObjects: true }));
 
@@ -159,20 +186,32 @@ export default function Store() {
     }));
   };
 
-  const { mutate } = api.stores.create.useMutation({
+  const { mutate, isLoading } = api.stores.create.useMutation({
     onSuccess: (data) => {
       console.log("Mutation was successful:", data);
-      alert(`${t("createSuccessfull")}`);
-      if (data !== undefined) {
-        void router.push(`/${data.id}`);
-      }
+      setModalVisible(true);
+      setMutationData(data.id);
     },
+
     onError: (error) => {
       console.error("Mutation failed:", error);
       alert(`${t("createFailed")}: ${error.message}`);
       // Handle error case here (e.g., show an error message to the user)
     },
   });
+  const handleModalYes = () => {
+    setModalVisible(false);
+    if (mutationData) {
+      void router.push(`/add/addOwner/${mutationData}`);
+    }
+  };
+
+  const handleModalNo = () => {
+    setModalVisible(false);
+    if (mutationData) {
+      void router.push(`/storeProfile/${mutationData}`);
+    }
+  };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -215,6 +254,7 @@ export default function Store() {
 
   return (
     <div className="flex w-full justify-center pb-10 md:border-b">
+      {isModalVisible && <Modal onYes={handleModalYes} onNo={handleModalNo} />}
       <div className="flex w-[30rem] flex-col">
         <h2 className=" py-5 text-center text-4xl font-bold text-[#F08080]">
           {t("store.createStore")}
@@ -386,12 +426,22 @@ export default function Store() {
               ></textarea>
             </div>
             <div className="mt-2">
-              <button
-                type="submit"
-                className="w-full rounded bg-[#4682B4] px-5 py-2 font-bold text-white outline-none hover:border hover:bg-white hover:text-[#4682B4]"
-              >
-                Submit
-              </button>
+              {isLoading ? (
+                <button
+                  type="submit"
+                  className="rounded bg-[#4682B4] p-2 text-white"
+                  disabled
+                >
+                  {t("creating")}
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  className="rounded bg-[#4682B4] p-2 text-white"
+                >
+                  {t("create")}
+                </button>
+              )}
             </div>
           </div>
         </form>
