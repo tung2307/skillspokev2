@@ -23,11 +23,26 @@ type SpecificFormData = {
   introduction: string;
 };
 
-function Modal({ onYes, onNo }: { onYes: () => void; onNo: () => void }) {
+type StoreData = {
+  id: string;
+  name: string;
+};
+
+function Modal({
+  onYes,
+  onNo,
+  name,
+}: {
+  onYes: () => void;
+  onNo: () => void;
+  name: string | null | undefined;
+}) {
   return (
     <div className="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-black bg-opacity-50">
       <div className="w-96 rounded bg-white p-8 shadow-lg">
-        <h1>Create Store Successfull</h1>
+        <h1 className=" flex flex-row">
+          Create <div className="font-semibold">{name}</div> Successfull
+        </h1>
         <h2>Are you the owner?</h2>
         <div className="mt-4 flex justify-center gap-5">
           <button
@@ -72,9 +87,13 @@ export default function Store() {
   });
 
   const [serviceInput, setServiceInput] = useState("");
+  const [services, setServices] = useState<Array<string>>([]);
+  const [concatenatedServices, setConcatenatedServices] = useState<string>("");
+  const [selectedServices, setSelectedServices] = useState<string[]>([]);
+
   const [suggestions, setSuggestions] = useState<Array<string>>([]);
   const [isModalVisible, setModalVisible] = useState(false);
-  const [mutationData, setMutationData] = useState("");
+  const [mutationData, setMutationData] = useState<StoreData>();
 
   const serviceKeys = Object.keys(t("services", { returnObjects: true }));
 
@@ -103,13 +122,16 @@ export default function Store() {
     setSuggestions(filteredServiceSuggestions);
   };
   const handleSuggestionClick = (suggestion: string) => {
-    setServiceInput(suggestion);
-    setFormData((prev) => ({
-      ...prev,
-      service: suggestion,
-    }));
+    if (!services.includes(suggestion)) {
+      setServices((prev) => [...prev, suggestion]);
+    }
+    setSelectedServices((prevServices) => [...prevServices, suggestion]);
+    setServiceInput(""); // Clear the service input field
     setSuggestions([]); // Clear suggestions after selecting one
   };
+  useEffect(() => {
+    setConcatenatedServices(services.join(", "));
+  }, [services]);
 
   const [searchDistrictResults, setSearchDistrictResults] = useState<string[]>(
     []
@@ -179,10 +201,12 @@ export default function Store() {
     }
 
     const name = target.name;
+    const concatenatedServices = selectedServices.join(", ");
 
     setFormData((prevState: SpecificFormData) => ({
       ...prevState,
       [name]: value,
+      service: concatenatedServices, // Here, we update the service in formData
     }));
   };
 
@@ -190,7 +214,7 @@ export default function Store() {
     onSuccess: (data) => {
       console.log("Mutation was successful:", data);
       setModalVisible(true);
-      setMutationData(data.id);
+      setMutationData(data);
     },
 
     onError: (error) => {
@@ -202,28 +226,33 @@ export default function Store() {
   const handleModalYes = () => {
     setModalVisible(false);
     if (mutationData) {
-      void router.push(`/add/addOwner/${mutationData}`);
+      void router.push(`/add/addOwner/${mutationData.id}`);
     }
   };
 
   const handleModalNo = () => {
     setModalVisible(false);
     if (mutationData) {
-      void router.push(`/storeProfile/${mutationData}`);
+      void router.push(`/storeProfile/${mutationData.id}`);
     }
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Validate service
+
+    // Validate each service
     const serviceTranslations = serviceWithMetadata.map(
       (item) => item.translation
     );
-    const isValidService = serviceTranslations.includes(formData.service);
-    if (!isValidService) {
-      alert("Invalid service!"); // Again, replace with your preferred error handling
+    const allValidServices = services.every((service) =>
+      serviceTranslations.includes(service)
+    );
+
+    if (!selectedServices.length) {
+      alert("Please select at least one service");
       return;
     }
+
     // Validate district
     const isValidDistrict = district.includes(formData.district);
     if (!isValidDistrict) {
@@ -236,25 +265,40 @@ export default function Store() {
       alert("Invalid city!"); // You can replace this with a more user-friendly error handling mechanism
       return;
     }
-    const matchingServiceObj = serviceWithMetadata.find(
-      (item) => item.translation === serviceInput
-    );
 
-    // Check if matchingServiceObj is defined and extract the key
-    const serviceKeyForSubmission = matchingServiceObj
-      ? matchingServiceObj.key
-      : null;
+    // Extract service keys (identifiers) for each selected service
+    const serviceKeysForSubmission = services
+      .map((service) => {
+        const matchingServiceObj = serviceWithMetadata.find(
+          (item) => item.translation === service
+        );
+        return matchingServiceObj ? matchingServiceObj.key : null;
+      })
+      .filter(Boolean) // remove any null values
+      .join(", ");
 
     // If validation passes, proceed with the mutation
     mutate({
       ...formData,
-      service: serviceKeyForSubmission?.toString() ?? "",
+      service: serviceKeysForSubmission,
     });
+  };
+
+  const handleRemoveService = (serviceToRemove: string) => {
+    setServices((prev) =>
+      prev.filter((service) => service !== serviceToRemove)
+    );
   };
 
   return (
     <div className="flex w-full justify-center pb-10 md:border-b">
-      {isModalVisible && <Modal onYes={handleModalYes} onNo={handleModalNo} />}
+      {isModalVisible && (
+        <Modal
+          onYes={handleModalYes}
+          onNo={handleModalNo}
+          name={mutationData?.name}
+        />
+      )}
       <div className="flex w-[30rem] flex-col">
         <h2 className=" py-5 text-center text-4xl font-bold text-[#F08080]">
           {t("store.createStore")}
@@ -281,7 +325,6 @@ export default function Store() {
                 value={serviceInput}
                 onChange={handleServiceInputChange}
                 className="w-full border-b p-1  outline-none"
-                required
               />
               {suggestions.length > 0 && (
                 <div
@@ -299,6 +342,19 @@ export default function Store() {
                   ))}
                 </div>
               )}
+              <div>
+                {services.map((service, index) => (
+                  <span key={index} className="mr-2">
+                    {service}
+                    <span
+                      className="ml-1 cursor-pointer text-red-500"
+                      onClick={() => handleRemoveService(service)}
+                    >
+                      x
+                    </span>
+                  </span>
+                ))}
+              </div>
             </div>
 
             <div className="pb-2 pt-1">

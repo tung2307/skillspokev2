@@ -51,7 +51,7 @@ model StorePicture {
     id        String   @id @default(uuid())
     storeId   String
     fileUrl   String
-    fileName  String
+    fileKey   String
     createdAt DateTime @default(now())
     store     Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
 

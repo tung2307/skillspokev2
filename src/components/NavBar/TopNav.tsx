@@ -176,12 +176,12 @@ export default function TopNav() {
                 {menuVisible && (
                   <div className="absolute right-0 mt-2 w-auto rounded border border-gray-200 bg-white text-black shadow-lg">
                     <div onClick={closeAll} className="flex w-40 flex-col">
-                      <Link href={`/search/`}>
+                      <Link href={`/search/page`}>
                         <div className="block w-full p-3 text-left hover:bg-gray-100">
                           {t("search")}
                         </div>
                       </Link>
-                      <Link href={`/discover/`}>
+                      <Link href={`/discover/${location}`}>
                         <div className="block w-full p-3 text-left hover:bg-gray-100">
                           {t("discover")}
                         </div>
@@ -220,7 +220,7 @@ export default function TopNav() {
                           {t("search")}
                         </div>
                       </Link>
-                      <Link href={`/discover/`}>
+                      <Link href={`/discover/${location}`}>
                         <div className="block w-full p-3 text-left hover:bg-gray-100">
                           {t("discover")}
                         </div>

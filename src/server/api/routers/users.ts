@@ -22,11 +22,10 @@ export const userRouter = createTRPCRouter({
       }
       return null;
     }),
-  getUserbyId: privateProcedure
+  getUserbyId: publicProcedure
     .input(z.object({ userId: z.string() }))
     .query(async ({ ctx, input }) => {
       if (input.userId != "") {
-        console.log(input.userId);
         const user = await ctx.prisma.user.findFirst({
           where: {
             id: input.userId,

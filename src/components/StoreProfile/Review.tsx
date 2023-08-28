@@ -5,11 +5,12 @@ import { useTranslation } from "react-i18next";
 import { api } from "~/utils/api";
 import ReviewCard from "./ReviewCard";
 import Rating from "@mui/material/Rating";
+import { useEffect } from "react";
 type StoreDataProps = {
   data: {
     id: string; // changed to lowercase 'string'
     name: string; // changed to lowercase 'string'
-    userId: string; // changed to lowercase 'string'
+    userId: string | null; // changed to lowercase 'string'
   };
   onRatingChange?: (rating: number) => void;
   isLoading: boolean;
@@ -35,7 +36,7 @@ export default function Review({
   );
 
   const { data: userData } = api.users.getUserbyId.useQuery(
-    { userId: data.userId },
+    { userId: data.userId ?? "" },
     { enabled: !!data.userId }
   );
   const totalRating = reviewData?.reduce(
@@ -56,9 +57,12 @@ export default function Review({
       : 0
   );
 
-  if (onRatingChange) {
-    onRatingChange(averageRating);
-  }
+  useEffect(() => {
+    if (onRatingChange) {
+      onRatingChange(averageRating);
+    }
+  }, [averageRating, onRatingChange]);
+
   return (
     <>
       {isLoading ? (

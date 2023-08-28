@@ -3,14 +3,14 @@
  * for Docker builds.
  */
 await import("./src/env.mjs");
-
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
   experimental: {
     serverActions: true,
+    esmExternals: false,
   },
-  images: { domains: ["img.clerk.com"] },
+  images: { domains: ["img.clerk.com", "uploadthing.com"] },
 
   /**
    * If you are using `appDir` then you must comment the below `i18n` config out.

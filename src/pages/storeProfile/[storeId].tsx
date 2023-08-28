@@ -1,15 +1,17 @@
 import { useUser } from "@clerk/nextjs";
 import Rating from "@mui/material/Rating";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import Project from "~/components/StoreProfile/Project";
 import Review from "~/components/StoreProfile/Review";
 import { api } from "~/utils/api";
-
+import Image from "next/image";
 export default function StoreProfile() {
   const router = useRouter();
   const { t } = useTranslation();
+  const user = useUser();
   const [rating, setRating] = useState<number | null>(null);
 
   let id = "";
@@ -18,7 +20,12 @@ export default function StoreProfile() {
   } else if (Array.isArray(router.query.storeId)) {
     id = router.query.storeId[0] ?? "";
   }
-
+  const { data: profilePic } = api.stores.getStoreProfilePicture.useQuery(
+    {
+      storeId: id,
+    },
+    { enabled: !!id }
+  );
   const { data: storeData, isLoading } = api.stores.getStoreProfile.useQuery(
     {
       storeId: id,
@@ -33,6 +40,10 @@ export default function StoreProfile() {
     { enabled: !!storeData && !!storeData.userId }
   );
 
+  const servicesArray = storeData?.service
+    .split(", ")
+    .map((service) => service.trim());
+
   function handleSaveClick() {
     return;
   }
@@ -44,12 +55,45 @@ export default function StoreProfile() {
       <div className="flex w-full justify-center ">
         <div className="h-auto w-full p-5 pt-10 text-sm sm:text-lg md:w-[55rem] md:p-10 xl:w-[65rem]">
           <div className="flex h-full w-full flex-col gap-10">
-            <div className="flex w-full flex-col md:flex-row md:gap-3">
+            <div className="flex w-full flex-col gap-2 md:flex-row md:gap-3">
               <div className="flex justify-center">
-                <div className="flex h-[200px] w-[200px] items-center justify-center rounded bg-gray-400 ">
-                  Image Placeholder
+                <div className="flex flex-col gap-2">
+                  <div className="flex h-auto w-[200px] items-center justify-center rounded ">
+                    {profilePic ? (
+                      <Image
+                        src={profilePic.fileUrl}
+                        alt="profilePic"
+                        width={200} // Set the width
+                        height={200} // Set the height
+                        objectFit="cover" // This will make the image cover the container while maintaining its aspect ratio
+                        className="rounded shadow"
+                      />
+                    ) : (
+                      <Image
+                        src={"/images/appLogo/Placeholder_view_vector.svg.png"}
+                        alt="profilePic"
+                        width={200} // Set the width
+                        height={200} // Set the height
+                        objectFit="cover" // This will make the image cover the container while maintaining its aspect ratio
+                        className="rounded shadow"
+                      />
+                    )}
+                  </div>
+                  <div className="flex w-full justify-center">
+                    {userData?.role === "PRO" &&
+                      user.isSignedIn &&
+                      userData.clerkId === user.user.id && (
+                        <Link
+                          href={`/storeProfile/editPicture/${storeData!.id}`}
+                          className="rounded border bg-[#4682B4] p-1 text-white hover:bg-[#4683b4aa] hover:text-black"
+                        >
+                          Edit picture
+                        </Link>
+                      )}
+                  </div>
                 </div>
               </div>
+
               <div className="flex h-full flex-grow items-center text-center md:text-left ">
                 <div className="flex w-full flex-col gap-3 ">
                   <div className="text-4xl font-bold">{storeData?.name}</div>
@@ -154,17 +198,22 @@ export default function StoreProfile() {
             </div>
             <div className="flex flex-col items-start gap-2 border-t">
               <div className="pt-5 text-xl font-bold">{t("specialist")}</div>
-              <div className="h-auto rounded-lg border p-1">
-                {t(`services.${storeData?.service}`)}
+              <div className="flex flex-row gap-2">
+                {servicesArray?.map((service, index) => (
+                  <div key={index} className="h-auto rounded-lg border p-1">
+                    {t(`services.${service}`)}
+                  </div>
+                ))}
               </div>
             </div>
+
             <div className="flex flex-col gap-2 border-t">
               <div className="pt-5 text-xl font-bold">{t("review")}</div>
               <Review
                 data={{
                   id: storeData!.id,
                   name: storeData!.name,
-                  userId: storeData?.userId ?? "",
+                  userId: storeData?.userId ?? null,
                 }}
                 onRatingChange={(newRating) => setRating(newRating)}
                 isLoading={isLoading}
