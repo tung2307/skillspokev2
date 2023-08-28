@@ -34,14 +34,14 @@ export default function PostReview() {
   const { mutate, isLoading } = api.review.create.useMutation({
     onSuccess(data) {
       console.log("Mutation was successful:", data);
-      alert(`${t("createSuccessfull")}`);
+
       if (data !== undefined) {
         void router.push(`/storeProfile/${data.storeId}`);
       }
     },
     onError: (error) => {
       console.error("Mutation failed:", error);
-      alert(`${t("createFailed")}: ${error.message}`);
+
       // Handle error case here (e.g., show an error message to the user)
     },
   });
