@@ -15,7 +15,6 @@ export default function PostReview() {
   const storeName =
     typeof router.query.storeName === "string" ? router.query.storeName : null;
   if (!user.isSignedIn) {
-    alert("Logout");
     void router.push(`/storeProfile/${storeId}`);
   }
   // State for the input values
