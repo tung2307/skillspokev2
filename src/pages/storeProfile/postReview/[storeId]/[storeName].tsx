@@ -16,23 +16,27 @@ export default function PostReview() {
   }, []);
 
   const storeId =
-    router.isReady && typeof router.query.storeId === "string"
+    isClient && router.isReady && typeof router.query.storeId === "string"
       ? router.query.storeId
       : null;
   const storeName =
-    router.isReady && typeof router.query.storeName === "string"
+    isClient && router.isReady && typeof router.query.storeName === "string"
       ? router.query.storeName
       : null;
+
+  useEffect(() => {
+    if (isClient) {
+      if (!user.isSignedIn) {
+        void router.push(`/storeProfile/${storeId}`);
+      }
+    }
+  }, [user, storeId, router, isClient]);
 
   useEffect(() => {
     if (isClient && !user.isSignedIn) {
       void router.push(`/storeProfile/${storeId}`);
     }
-  }, [user, storeId, router]);
-
-  if (!user.isSignedIn) {
-    void router.push(`/storeProfile/${storeId}`);
-  }
+  }, [isClient]);
   // State for the input values
   const [rating, setRating] = useState<number | null>(null);
   const [description, setDescription] = useState("");
@@ -50,9 +54,7 @@ export default function PostReview() {
     onSuccess(data) {
       console.log("Mutation was successful:", data);
 
-      if (data !== undefined) {
-        void router.push(`/storeProfile/${data.storeId}`);
-      }
+      void router.push(`/storeProfile/${data.storeId}`);
     },
     onError: (error) => {
       console.error("Mutation failed:", error);
