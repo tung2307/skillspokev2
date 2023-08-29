@@ -61,6 +61,21 @@ export const storeRouter = createTRPCRouter({
       }
       return null;
     }),
+
+  deleteStore: privateProcedure
+    .input(z.object({ storeId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      if (input.storeId != "") {
+        const store = await ctx.prisma.store.delete({
+          where: {
+            id: input.storeId,
+          },
+        });
+        return store;
+      }
+      return null;
+    }),
+
   getStoreProfile: publicProcedure
     .input(z.object({ storeId: z.string() }))
     .query(async ({ ctx, input }) => {

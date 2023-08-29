@@ -118,7 +118,7 @@ export default function Search() {
       <div className=" hidden h-10 justify-start text-lg text-black md:flex">
         <div className="relative rounded-l border-b border-l border-t shadow">
           <input
-            className="h-full rounded-l pl-2 outline-none md:w-[100%] lg:w-72"
+            className="h-full rounded-l pl-2 outline-none md:w-[100%] lg:w-64"
             placeholder={t("service")}
             value={serviceInput}
             onChange={handleServiceInputChange}
@@ -146,7 +146,7 @@ export default function Search() {
         </div>
         <div className="relative border-b border-l border-t shadow">
           <input
-            className="h-full pl-2 outline-none md:w-[100%] lg:w-72"
+            className="h-full pl-2 outline-none md:w-[100%] lg:w-64"
             placeholder={t("district")}
             value={districtInput}
             onChange={handleDistrictInputChange}

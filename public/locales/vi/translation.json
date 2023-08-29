@@ -72,6 +72,9 @@
   "Very Good": "Rất Tốt",
   "Excellent": "Xuất Sắc",
   "creating": "Đang tạo",
+  "edit": "Chỉnh sửa",
+  "delete": "Xoá",
+  "deleting":"Đang xoá",
   "services": {
     "Makeup Artist": "Thợ trang điểm",
     "Plumbing": "Thợ ống nước",
@@ -145,6 +148,7 @@
     "address2": "Địa Chỉ 2",
     "ward": "Phường",
     "district": "Quận/Huyện",
-    "city": "Thành Phố"
+    "city": "Thành Phố",
+    "description":"Giới thiệu"
   }
 }

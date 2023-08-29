@@ -5,33 +5,24 @@ import Link from "next/link";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { api } from "~/utils/api";
-import ProPage from "~/components/UserProfile/ProPage";
+import ProPage from "~/components/UserProfile/Pro/ProPage";
+
 const ProfilePage = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const userId =
     typeof router.query.userId === "string" ? router.query.userId : ""; // Type assertion here
   const user = useUser();
-  useEffect(() => {
-    if (userId != user.user?.id || !user.isSignedIn) {
-      void router.push("/");
-    }
-  }, [userId, user.user?.id, user.isSignedIn, router]);
 
   const { data: userData } = api.users.getUserbyClerk.useQuery(
     { userId: userId ?? "" },
     { enabled: !!userId } // Query will only run if userId is truthy
   );
 
-  const { data: storeData } = api.stores.getStoreUserProfile.useQuery(
-    { userId: userData?.id ?? "" },
-    { enabled: userData?.role === "PRO" && !!userData?.id }
-  );
-
   return user.isSignedIn ? (
     <>
-      <div className="flex h-auto flex-col border-b md:h-screen md:flex-row xl:flex-row">
-        <div className="w-full border-b pt-10 md:w-80 md:border-b-0 md:border-r xl:w-80">
+      <div className="flex h-auto flex-col border-b md:flex-row xl:flex-row">
+        <div className="w-full border-b pb-5 pt-10 md:w-64 md:border-b-0 md:border-r lg:w-64 xl:w-80">
           <div className="flex justify-center">
             <div className="flex w-full flex-col items-center">
               <ProfileImage src={user.user?.imageUrl} />

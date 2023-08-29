@@ -72,6 +72,9 @@
   "Very Good": "Very Good",
   "Excellent": "Excellent",
   "creating": "Creating",
+  "edit": "Edit",
+  "delete": "Delete",
+  "deleting": "Deleting",
   "services": {
     "Makeup Artist": "Makeup Artist",
     "Plumbing": "Plumbing",
@@ -146,6 +149,7 @@
     "address2": "Address 2",
     "ward": "Ward",
     "district": "District",
-    "city": "City"
+    "city": "City",
+    "description": "Description"
   }
 }
