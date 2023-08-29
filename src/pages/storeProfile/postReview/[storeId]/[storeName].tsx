@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Rating from "@mui/material/Rating";
 import { api } from "~/utils/api";
 import { useTranslation } from "react-i18next";
@@ -9,11 +9,27 @@ export default function PostReview() {
   const router = useRouter();
   const { t } = useTranslation();
   const user = useUser();
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const storeId =
-    typeof router.query.storeId === "string" ? router.query.storeId : null;
+    router.isReady && typeof router.query.storeId === "string"
+      ? router.query.storeId
+      : null;
   const storeName =
-    typeof router.query.storeName === "string" ? router.query.storeName : null;
+    router.isReady && typeof router.query.storeName === "string"
+      ? router.query.storeName
+      : null;
+
+  useEffect(() => {
+    if (isClient && !user.isSignedIn) {
+      void router.push(`/storeProfile/${storeId}`);
+    }
+  }, [user, storeId, router]);
+
   if (!user.isSignedIn) {
     void router.push(`/storeProfile/${storeId}`);
   }
