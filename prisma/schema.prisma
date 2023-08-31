@@ -70,13 +70,14 @@ model ReviewComment {
 model StoreFavorite {
     id        String   @id @default(uuid())
     storeId   String
-    userId    String
+    clerkId   String
     createdAt DateTime @default(now())
     store     Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
-    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user      User     @relation(fields: [clerkId], references: [clerkId], onDelete: Cascade)
 
+    @@unique([storeId, clerkId])
     @@index([storeId])
-    @@index([userId])
+    @@index([clerkId])
 }
 
 model StorePicture {

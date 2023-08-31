@@ -75,7 +75,8 @@
   "edit": "Edit",
   "delete": "Delete",
   "deleting": "Deleting",
-  "yourRecentReview":"Your Recent Review",
+  "yourRecentReview": "Your Recent Review",
+  "favorite": "favorite",
   "services": {
     "Makeup Artist": "Makeup Artist",
     "Plumbing": "Plumbing",

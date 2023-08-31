@@ -6,8 +6,61 @@ import {
 } from "~/server/api/trpc";
 import { Store } from "@prisma/client";
 import { utapi } from "uploadthing/server";
-import { StorePicture } from "@prisma/client";
+
 export const storeRouter = createTRPCRouter({
+  checkIfStoreIsFavorite: privateProcedure
+    .input(z.object({ storeId: z.string(), clerkId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      let isFavorite = false;
+      if (ctx.userId === input.clerkId) {
+        const isSaved = await ctx.prisma.storeFavorite.findFirst({
+          where: {
+            storeId: input.storeId,
+            clerkId: input.clerkId,
+          },
+        });
+        if (isSaved !== null) {
+          isFavorite = true;
+        }
+      }
+      return isFavorite;
+    }),
+  checkStoreIsFavorite: privateProcedure.query(async ({ ctx }) => {
+    const clerkId = ctx.userId;
+    const isSaved = await ctx.prisma.storeFavorite.findMany({
+      where: {
+        clerkId: clerkId,
+      },
+    });
+    return isSaved;
+  }),
+  createFavorite: privateProcedure
+    .input(z.object({ storeId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const clerkId = ctx.userId;
+      const save = await ctx.prisma.storeFavorite.create({
+        data: {
+          ...input,
+          clerkId: clerkId,
+        },
+      });
+      return save;
+    }),
+  deleteFavorite: privateProcedure
+    .input(z.object({ storeId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const clerkId = ctx.userId;
+      const deleteSave = await ctx.prisma.storeFavorite.delete({
+        where: {
+          storeId_clerkId: {
+            storeId: input.storeId,
+            clerkId: clerkId,
+          },
+        },
+      });
+      return deleteSave;
+    }),
+
   getServices: publicProcedure
     .input(z.object({ location: z.string() }))
     .query(async ({ ctx, input }) => {

@@ -40,6 +40,8 @@ export default authMiddleware({
     "/api/trpc/stores.getStoreProfilePicture,stores.getStoreProfile",
     "/api/trpc/stores.getStoreProfilePicture,review.getStoreReview,stores.getStoreProfile,users.getUserStoreProfile,users.getUserbyId",
     "/api/trpc/stores.getStoreProfilePicture,stores.getStoreProfile,users.getUserStoreProfile,review.getStoreReview,users.getUserbyId",
+    "/api/trpc/stores.getStoreProfilePicture,stores.getStoreProfile,users.getUserStoreProfile",
+    "/api/trpc/review.getClerkUserReview,review.getStoreReview,users.getUserbyId",
   ],
   ignoredRoutes: ["/((?!api|trpc))(_next|.+..+)(.*)"],
 });

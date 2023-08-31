@@ -22,7 +22,7 @@ const ProfilePage = () => {
   return user.isSignedIn ? (
     <>
       <div className="flex h-auto flex-col border-b md:flex-row xl:flex-row">
-        <div className="w-full border-b pb-5 pt-10 md:w-64 md:border-b-0 md:border-r lg:w-64 xl:w-80">
+        <div className="w-full border-b pb-5 pt-10 md:w-[30vw]  md:border-b-0 md:border-r">
           <div className="flex justify-center">
             <div className="flex w-full flex-col items-center">
               <ProfileImage src={user.user?.imageUrl} />
@@ -44,7 +44,7 @@ const ProfilePage = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-grow">
+        <div className="flex w-full md:w-[75vw] ">
           {userData?.role == "CUSTOMER" ? (
             <CustomerPage userData={userData} />
           ) : (

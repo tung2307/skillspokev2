@@ -2,7 +2,7 @@ import { useUser } from "@clerk/nextjs";
 import Rating from "@mui/material/Rating";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Project from "~/components/StoreProfile/Project";
 import Review from "~/components/StoreProfile/Review";
@@ -43,14 +43,54 @@ export default function StoreProfile() {
   const servicesArray = storeData?.service
     .split(", ")
     .map((service) => service.trim());
-
+  const [isSaved, setIsSaved] = useState(false);
+  const { mutate: createSave } = api.stores.createFavorite.useMutation({
+    onSuccess: (data) => {
+      console.log("Successfully saved!", data);
+      setIsSaved(true);
+    },
+    onError: (error) => {
+      console.error("Failed to save!", error);
+    },
+  });
+  const { mutate: deleteSave } = api.stores.deleteFavorite.useMutation({
+    onSuccess: () => {
+      setIsSaved(false);
+    },
+    onError: (error) => {
+      console.error("Failed to save!", error);
+    },
+  });
   function handleSaveClick() {
     if (!user.isSignedIn) {
       const currentURL = window.location.href;
       void router.push(`/sign-in/${encodeURIComponent(currentURL)}`);
     }
-    
+
+    if (isSaved) {
+      deleteSave({ storeId: id });
+    } else {
+      createSave({ storeId: id });
+    }
   }
+  const isUserSignedIn = !!user.user?.id && !!id;
+  const { data: isStoreSaved, refetch: refetchStoreSavedStatus } =
+    api.stores.checkIfStoreIsFavorite.useQuery(
+      {
+        storeId: id,
+        clerkId: user.user?.id ?? "",
+      },
+      {
+        enabled: isUserSignedIn, // This determines if the query should run or not
+      }
+    );
+
+  useEffect(() => {
+    if (user.isSignedIn) {
+      void refetchStoreSavedStatus();
+      setIsSaved(!!isStoreSaved);
+    }
+  }, [user.isSignedIn, refetchStoreSavedStatus, isStoreSaved]);
   if (isLoading) {
     return <>Loading...</>;
   }
@@ -116,10 +156,14 @@ export default function StoreProfile() {
                   </div>
                   <div className="flex w-full justify-center md:justify-start">
                     <div
-                      className="w-20 rounded-lg border-2  text-center text-lg  hover:cursor-pointer hover:bg-[#4682B4] hover:text-white"
+                      className={`w-20 rounded-lg border-2 text-center text-lg hover:cursor-pointer ${
+                        isSaved
+                          ? "bg-red-300 hover:bg-red-500 hover:text-white"
+                          : "hover:bg-[#4682B4] hover:text-white"
+                      }`}
                       onClick={handleSaveClick}
                     >
-                      Save
+                      {isSaved ? <>{t("unsave")}</> : <>{t("save")}</>}
                     </div>
                   </div>
                 </div>

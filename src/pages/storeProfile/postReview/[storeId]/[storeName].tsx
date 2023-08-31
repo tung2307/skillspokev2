@@ -36,7 +36,7 @@ export default function PostReview() {
     if (isClient && !user.isSignedIn) {
       void router.push(`/storeProfile/${storeId}`);
     }
-  }, [isClient]);
+  }, [isClient, router, storeId, user.isSignedIn]);
   // State for the input values
   const [rating, setRating] = useState<number | null>(null);
   const [description, setDescription] = useState("");

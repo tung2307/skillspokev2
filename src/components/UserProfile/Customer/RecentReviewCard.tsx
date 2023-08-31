@@ -32,7 +32,7 @@ export default function RecentReviewCard({
   return (
     <>
       <div className="h-40 rounded border p-2">
-        <div className="flex flex-col gap-2">
+        <div className="flex h-full flex-col gap-2">
           <Link
             href={`/storeProfile/${reviewData.storeId}`}
             className="w-20 text-xl font-bold hover:underline"
@@ -49,7 +49,7 @@ export default function RecentReviewCard({
             />
             <div className="text-sm">{vietnamDate}</div>
           </div>
-          <div>{reviewData.description}</div>
+          <div className=" overflow-y-auto">{reviewData.description}</div>
         </div>
       </div>
     </>
