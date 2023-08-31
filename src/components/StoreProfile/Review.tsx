@@ -91,9 +91,9 @@ export default function Review({
                     className="flex flex-row items-center justify-between gap-2"
                   >
                     <div className="flex w-16 flex-row justify-center gap-1">
-                      {5 - index}{" "}
+                      {index + 1}{" "}
                       <div>
-                        {5 - index === 1 ? (
+                        {index + 1 === 1 ? (
                           <>{t("star")}</>
                         ) : (
                           <>{router.locale === "en" ? <>stars</> : <>sao</>}</>

@@ -6,7 +6,7 @@ import Image from "next/image";
 type ReviewCardProps = {
   review: {
     id: string;
-    userId: string;
+    clerkId: string;
     storeId: string;
     rating: number;
     description: string;
@@ -26,9 +26,9 @@ export default function ReviewCard({ review }: ReviewCardProps) {
   });
   const { data: clerkUser, isLoading } = api.review.getClerkUserReview.useQuery(
     {
-      userId: review.userId,
+      userId: review.clerkId,
     },
-    { enabled: !!review.userId }
+    { enabled: !!review.clerkId }
   );
 
   return (

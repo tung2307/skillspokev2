@@ -12,36 +12,68 @@ datasource db {
 }
 
 model Store {
-    id           String         @id @default(uuid())
-    userId       String         @default("none")
-    name         String
-    service      String
-    remote       Boolean        @default(false)
-    phone        String?
-    address1     String?
-    address2     String?
-    ward         String?
-    district     String
-    city         String
-    country      String         @default("Việt Nam")
-    introduction String?        @db.Text
-    verify       Boolean?       @default(false)
-    createdAt    DateTime       @default(now())
-    updatedAt    DateTime       @updatedAt
-    storePicture StorePicture[]
-    Review       Review[]
+    id            String          @id @default(uuid())
+    userId        String          @default("none")
+    name          String
+    service       String
+    remote        Boolean         @default(false)
+    phone         String?
+    address1      String?
+    address2      String?
+    ward          String?
+    district      String
+    city          String
+    country       String          @default("Việt Nam")
+    introduction  String?         @db.Text
+    verify        Boolean?        @default(false)
+    createdAt     DateTime        @default(now())
+    updatedAt     DateTime        @updatedAt
+    storePicture  StorePicture[]
+    Review        Review[]
+    StoreFavorite StoreFavorite[]
+    ReviewComment ReviewComment[]
 }
 
 model Review {
-    id          String   @id @default(cuid())
-    userId      String
-    storeId     String
-    rating      Int
-    description String   @db.Text
+    id            String          @id @default(cuid())
+    clerkId       String
+    storeId       String
+    rating        Int
+    description   String          @db.Text
+    createdAt     DateTime        @default(now())
+    updatedAt     DateTime        @updatedAt
+    store         Store           @relation(fields: [storeId], references: [id], onDelete: Cascade)
+    user          User            @relation(fields: [clerkId], references: [clerkId], onDelete: Cascade)
+    ReviewComment ReviewComment[]
+
+    @@index([storeId])
+    @@index([clerkId])
+}
+
+model ReviewComment {
+    id          String   @id @default(uuid())
+    reviewId    String // Reference to the Review
+    userId      String // The user who made the comment on the review
+    description String
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
-    store       Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+    review      Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
     user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    Store       Store?   @relation(fields: [storeId], references: [id])
+    storeId     String?
+
+    @@index([reviewId])
+    @@index([userId])
+    @@index([storeId])
+}
+
+model StoreFavorite {
+    id        String   @id @default(uuid())
+    storeId   String
+    userId    String
+    createdAt DateTime @default(now())
+    store     Store    @relation(fields: [storeId], references: [id], onDelete: Cascade)
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@index([storeId])
     @@index([userId])
@@ -65,8 +97,10 @@ model User {
     role    Role    @default(CUSTOMER)
 
     // Non- Next auth
-    profile Profile[]
-    Review  Review[]
+    profile       Profile[]
+    Review        Review[]
+    StoreFavorite StoreFavorite[]
+    ReviewComment ReviewComment[]
 }
 
 model Profile {

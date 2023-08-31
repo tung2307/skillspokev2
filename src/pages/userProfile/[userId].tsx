@@ -2,10 +2,10 @@ import { useRouter } from "next/router";
 import { ProfileImage } from "~/components/ComponentHelpers/ProfileImage";
 import { useUser } from "@clerk/nextjs";
 import Link from "next/link";
-import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { api } from "~/utils/api";
 import ProPage from "~/components/UserProfile/Pro/ProPage";
+import CustomerPage from "~/components/UserProfile/Customer/CustomerPage";
 
 const ProfilePage = () => {
   const { t } = useTranslation();
@@ -46,7 +46,7 @@ const ProfilePage = () => {
         </div>
         <div className="flex flex-grow">
           {userData?.role == "CUSTOMER" ? (
-            <>Customer profile page</>
+            <CustomerPage userData={userData} />
           ) : (
             <>
               <ProPage userData={userData} />

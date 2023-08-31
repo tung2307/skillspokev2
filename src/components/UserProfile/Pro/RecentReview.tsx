@@ -6,7 +6,7 @@ import Link from "next/link";
 type ReviewDataProps = {
   reviewData: {
     id: string;
-    userId: string;
+    clerkId: string;
     storeId: string;
     rating: number;
     description: string;
@@ -19,9 +19,9 @@ export default function RecentReview({ reviewData }: ReviewDataProps) {
   const user = useUser();
   const { data: clerkUser } = api.review.getClerkUserReview.useQuery(
     {
-      userId: reviewData.userId,
+      userId: reviewData.clerkId,
     },
-    { enabled: !!reviewData.userId && !!user.isSignedIn }
+    { enabled: !!reviewData.clerkId && !!user.isSignedIn }
   );
 
   const { data: storeData } = api.stores.getStoreProfile.useQuery(

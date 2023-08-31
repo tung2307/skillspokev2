@@ -106,7 +106,10 @@ export default function TopNav() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [router.pathname]);
-
+  function handleClickSignIn() {
+    const currentURL = window.location.href;
+    void router.push(`/sign-in/${encodeURIComponent(currentURL)}`);
+  }
   return (
     <>
       {isNavVisible ? (
@@ -126,8 +129,11 @@ export default function TopNav() {
             {!user.isLoaded ? (
               <div></div> // Loading state
             ) : user.user == null ? (
-              <div className="rounded border bg-white p-1 text-[#4682B4] hover:bg-[#4682B4] hover:text-white">
-                <Link href={`/sign-in`}>{t("signIn")}</Link>
+              <div
+                className="rounded border bg-white p-1 text-[#4682B4] hover:cursor-pointer hover:bg-[#4682B4] hover:text-white"
+                onClick={handleClickSignIn}
+              >
+                {t("signIn")}
               </div>
             ) : (
               <div className="relative" ref={dropdownRef}>
@@ -186,11 +192,13 @@ export default function TopNav() {
                           {t("discover")}
                         </div>
                       </Link>
-                      <Link href={`/sign-in`}>
-                        <div className="block w-full p-3 text-left hover:bg-gray-100">
-                          {t("signIn")}
-                        </div>
-                      </Link>
+
+                      <div
+                        className="block w-full p-3 text-left hover:cursor-pointer hover:bg-gray-100"
+                        onClick={handleClickSignIn}
+                      >
+                        {t("signIn")}
+                      </div>
                     </div>
                   </div>
                 )}

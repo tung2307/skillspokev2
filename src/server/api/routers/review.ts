@@ -39,6 +39,20 @@ export const reviewRouter = createTRPCRouter({
       return reviews;
     }),
 
+  getRecentReview: privateProcedure
+    .input(z.object({ clerkId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const reviews = await ctx.prisma.review.findMany({
+        where: {
+          clerkId: input.clerkId,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      });
+      return reviews;
+    }),
+
   create: privateProcedure
     .input(
       z.object({
@@ -52,7 +66,7 @@ export const reviewRouter = createTRPCRouter({
       const review = await ctx.prisma.review.create({
         data: {
           ...input,
-          userId: userId,
+          clerkId: userId,
         },
       });
       return review;

@@ -75,6 +75,7 @@
   "edit": "Edit",
   "delete": "Delete",
   "deleting": "Deleting",
+  "yourRecentReview":"Your Recent Review",
   "services": {
     "Makeup Artist": "Makeup Artist",
     "Plumbing": "Plumbing",
@@ -150,6 +151,6 @@
     "ward": "Ward",
     "district": "District",
     "city": "City",
-    "description": "Description"
+    "introduction": "Introduction"
   }
 }

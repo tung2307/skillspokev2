@@ -45,7 +45,11 @@ export default function StoreProfile() {
     .map((service) => service.trim());
 
   function handleSaveClick() {
-    return;
+    if (!user.isSignedIn) {
+      const currentURL = window.location.href;
+      void router.push(`/sign-in/${encodeURIComponent(currentURL)}`);
+    }
+    
   }
   if (isLoading) {
     return <>Loading...</>;
