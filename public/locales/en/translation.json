@@ -153,5 +153,10 @@
     "district": "District",
     "city": "City",
     "introduction": "Introduction"
+  },
+  "addProject": {
+    "createProject": "Create Project",
+    "title": "Title",
+    "description": "Description"
   }
 }

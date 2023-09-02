@@ -7,7 +7,7 @@ const auth = (req: NextApiRequest, res: NextApiResponse) => ({ id: "fakeId" }); 
 
 // FileRouter for your app, can contain multiple FileRoutes
 export const ourFileRouter = {
-  imageUploader: f({ image: { maxFileSize: "4MB" } })
+  imageUploader: f({ image: { maxFileSize: "4MB", maxFileCount: 8 } })
     .middleware(({ req, res }) => {
       const user = auth(req, res);
       if (!user) throw new Error("Unauthorized");

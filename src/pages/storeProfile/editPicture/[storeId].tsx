@@ -1,10 +1,12 @@
 import { useRouter } from "next/router";
-import { UploadDropzone } from "~/utils/uploadthing";
-import "@uploadthing/react/styles.css";
+
+import { UploadDropzone } from "@uploadthing/react";
 import { api } from "~/utils/api";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { OurFileRouter } from "~/server/uploadthing";
+import { useTranslation } from "react-i18next";
 
 interface UploadFile {
   fileKey: string;
@@ -15,6 +17,7 @@ interface UploadFile {
 type UploadFileResponse = UploadFile[];
 
 export default function EditPicture() {
+  const { t } = useTranslation();
   // Changed to uppercase
   const router = useRouter();
   const storeId =
@@ -65,8 +68,17 @@ export default function EditPicture() {
     <>
       <div className="flex h-screen w-screen flex-row justify-center gap-5 p-10 md:p-20">
         <div className=" w-64 p-2 sm:w-80 md:w-96 md:p-0">
-          <UploadDropzone
-            className="ut-label:text-lg ut-allowed-content:ut-uploading:text-red-300"
+          <UploadDropzone<OurFileRouter>
+            content={{
+              button({ ready, isUploading }) {
+                if (ready && !isUploading)
+                  return <div className="p-3 ">{t("post")}</div>;
+              },
+              allowedContent({ isUploading }) {
+                if (isUploading) return <div>{t("posting")}</div>;
+              },
+            }}
+            className="pb-4 "
             endpoint="profilePicture"
             onClientUploadComplete={(res?: UploadFileResponse) => {
               if (!res || res.length === 0) {

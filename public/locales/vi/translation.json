@@ -63,7 +63,7 @@
   "Review": "Đánh Giá",
   "star": "sao",
   "selectRating": "Chọn xếp hạng",
-  "post": "Đăng đánh giá",
+  "post": "Đăng",
   "posting": "Đang đăng",
   "required": "Bắt buộc",
   "Needs Improvement": "Cần Cải Thiện",
@@ -76,7 +76,7 @@
   "delete": "Xoá",
   "deleting": "Đang xoá",
   "yourRecentReview": "Đánh giá gần đây của bạn",
-  "favorite":"Ưa thích",
+  "favorite": "Ưa thích",
   "services": {
     "Makeup Artist": "Thợ trang điểm",
     "Plumbing": "Thợ ống nước",
@@ -152,5 +152,10 @@
     "district": "Quận/Huyện",
     "city": "Thành Phố",
     "introduction": "Giới thiệu"
+  },
+  "addProject": {
+    "createProject": "Tạo Dự Án Mới",
+    "title": "Tiêu đề",
+    "description": "Mô Tả"
   }
 }
