@@ -32,6 +32,7 @@ model Store {
     Review        Review[]
     StoreFavorite StoreFavorite[]
     ReviewComment ReviewComment[]
+    StoreProject  StoreProject[]
 }
 
 model Review {
@@ -80,6 +81,33 @@ model StoreFavorite {
     @@index([clerkId])
 }
 
+model StoreProject {
+    id             String           @id @default(uuid())
+    storeId        String
+    clerkId        String
+    createdAt      DateTime         @default(now())
+    updatedAt      DateTime         @updatedAt
+    title          String
+    description    String
+    store          Store            @relation(fields: [storeId], references: [id], onDelete: Cascade)
+    user           User             @relation(fields: [clerkId], references: [clerkId], onDelete: Cascade)
+    ProjectPicture ProjectPicture[]
+
+    @@index([storeId])
+    @@index([clerkId])
+}
+
+model ProjectPicture {
+    id           String       @id @default(uuid())
+    projectId    String
+    fileUrl      String
+    fileKey      String
+    createdAt    DateTime     @default(now())
+    storeProject StoreProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+    @@index([projectId])
+}
+
 model StorePicture {
     id        String   @id @default(uuid())
     storeId   String
@@ -102,6 +130,7 @@ model User {
     Review        Review[]
     StoreFavorite StoreFavorite[]
     ReviewComment ReviewComment[]
+    StoreProject  StoreProject[]
 }
 
 model Profile {

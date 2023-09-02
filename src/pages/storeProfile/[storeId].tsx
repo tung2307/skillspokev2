@@ -240,9 +240,19 @@ export default function StoreProfile() {
                 <p className="font-bold text-red-500">{t("!bg-check")}!</p>
               )}
             </div>
-            <div className="flex flex-col gap-2 border-t">
-              <div className="pt-5 text-xl font-bold">{t("project")}</div>
-              <Project />
+            <div className="flex flex-col gap-2 border-t pt-5">
+              <div className="flex flex-row items-center gap-10">
+                <div className=" text-xl font-bold">{t("project")}</div>
+                {user.isSignedIn &&
+                  user.user.id == userData?.clerkId &&
+                  userData.id == storeData?.userId &&
+                  userData.role == "PRO" && (
+                    <Link href={`manageProject/${storeData.id}`}>
+                      <div className="rounded border p-1">Manage Project</div>
+                    </Link>
+                  )}
+              </div>
+              <Project storeData={{ id }} />
             </div>
             <div className="flex flex-col items-start gap-2 border-t">
               <div className="pt-5 text-xl font-bold">{t("specialist")}</div>
