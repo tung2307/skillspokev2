@@ -113,7 +113,7 @@ export default function TopNav() {
   return (
     <>
       {isNavVisible ? (
-        <div className="sticky top-0 z-10 flex h-20 w-screen items-center justify-between bg-[#4682B4] pr-5">
+        <div className="sticky top-0 z-20 flex h-20 w-screen items-center justify-between bg-[#4682B4] pr-5">
           <div className="flex flex-grow justify-start md:gap-4 xl:gap-40">
             <div className="pl-8 text-2xl font-bold text-white sm:text-4xl">
               <Link href="/">SKILLSPOKE</Link>

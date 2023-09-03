@@ -145,14 +145,16 @@ export default function StoreProfile() {
                     {rating === null ? (
                       <>{t("noRating")}</>
                     ) : (
-                      <>{parseFloat(rating.toString()).toFixed(1)}</>
+                      <>
+                        {parseFloat(rating.toString()).toFixed(1)}
+                        <Rating
+                          name="read-only"
+                          value={rating}
+                          readOnly
+                          size="medium"
+                        />
+                      </>
                     )}
-                    <Rating
-                      name="read-only"
-                      value={rating}
-                      readOnly
-                      size="medium"
-                    />
                   </div>
                   <div className="flex w-full justify-center md:justify-start">
                     <div
@@ -252,6 +254,7 @@ export default function StoreProfile() {
                     </Link>
                   )}
               </div>
+
               <Project storeData={{ id }} />
             </div>
             <div className="flex flex-col items-start gap-2 border-t">

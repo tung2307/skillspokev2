@@ -55,7 +55,7 @@ model ReviewComment {
     id          String   @id @default(uuid())
     reviewId    String // Reference to the Review
     userId      String // The user who made the comment on the review
-    description String
+    description String   @db.Text
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
     review      Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
@@ -88,7 +88,7 @@ model StoreProject {
     createdAt      DateTime         @default(now())
     updatedAt      DateTime         @updatedAt
     title          String
-    description    String
+    description    String           @db.Text
     store          Store            @relation(fields: [storeId], references: [id], onDelete: Cascade)
     user           User             @relation(fields: [clerkId], references: [clerkId], onDelete: Cascade)
     ProjectPicture ProjectPicture[]

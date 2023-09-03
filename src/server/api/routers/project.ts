@@ -14,7 +14,14 @@ export const projectRouter = createTRPCRouter({
       });
       return project;
     }),
-  // getSpecificProject:privateProcedure.
+  getProjectPicture: publicProcedure
+    .input(z.object({ projectId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const project = await ctx.prisma.projectPicture.findMany({
+        where: { projectId: input.projectId },
+      });
+      return project;
+    }),
   createProjectPicture: privateProcedure
     .input(
       z.object({
