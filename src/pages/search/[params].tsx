@@ -7,7 +7,7 @@ import { api } from "~/utils/api";
 export default function Search() {
   const router = useRouter();
   const { service, district } = router.query; // Destructuring the query parameters
-  const serviceValue = Array.isArray(service) ? service[0] : service;
+  let serviceValue = Array.isArray(service) ? service[0] : service;
   const districtValue = Array.isArray(district) ? district[0] : district;
   const { t } = useTranslation();
 
@@ -18,6 +18,7 @@ export default function Search() {
   if (isLoading) {
     return <div></div>; // This can be a spinner or any other loading indicator you'd prefer.
   }
+
   return (
     <>
       <div className="flex flex-col pb-2 md:border-b md:pb-10">
@@ -35,7 +36,7 @@ export default function Search() {
               <div className="p-5 md:p-10">
                 <div className="text-base font-bold md:text-xl">
                   {t("noServiceFound", {
-                    service: serviceValue,
+                    service: t(`services.${serviceValue}`),
                     district: districtValue,
                   })}
                 </div>
