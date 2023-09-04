@@ -7,7 +7,7 @@ import { api } from "~/utils/api";
 export default function Search() {
   const router = useRouter();
   const { service, district } = router.query; // Destructuring the query parameters
-  let serviceValue = Array.isArray(service) ? service[0] : service;
+  const serviceValue = Array.isArray(service) ? service[0] : service;
   const districtValue = Array.isArray(district) ? district[0] : district;
   const { t } = useTranslation();
 
@@ -18,6 +18,7 @@ export default function Search() {
   if (isLoading) {
     return <div></div>; // This can be a spinner or any other loading indicator you'd prefer.
   }
+  const serviceTranslation = t(`services.${serviceValue}`);
 
   return (
     <>
@@ -36,10 +37,11 @@ export default function Search() {
               <div className="p-5 md:p-10">
                 <div className="text-base font-bold md:text-xl">
                   {t("noServiceFound", {
-                    service: t(`services.${serviceValue}`),
-                    district: districtValue,
+                    service: serviceTranslation,
+                    district: districtValue!,
                   })}
                 </div>
+
                 <div>{t("findClose")} </div>
               </div>
             </div>

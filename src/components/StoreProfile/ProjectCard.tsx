@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 type ProjectDataProps = {
   projectData: {
@@ -19,6 +20,7 @@ type ProjectDataProps = {
 
 export default function ProjectCard({ projectData }: ProjectDataProps) {
   const user = useUser();
+  const router = useRouter();
   const { data } = api.project.getProjectPicture.useQuery({
     projectId: projectData.id,
   });
@@ -37,6 +39,20 @@ export default function ProjectCard({ projectData }: ProjectDataProps) {
   const handleModal = () => {
     setIsModalVisible(!isModalVisible);
   };
+  const { mutate, isLoading } = api.project.deleteProject.useMutation({
+    onSuccess: () => {
+      // Code to execute upon successful mutation
+      console.log("Project deleted successfully");
+      void router.reload();
+    },
+    onError: (error) => {
+      // Code to execute if there is an error
+      console.log("Error deleting project:", error);
+    },
+  });
+  function handleClick() {
+    mutate({ projectId: projectData.id });
+  }
 
   return (
     <>
@@ -87,8 +103,11 @@ export default function ProjectCard({ projectData }: ProjectDataProps) {
         {user.user?.id == projectData.clerkId && (
           <div className="w-56 rounded-b border-b border-l border-r">
             <div className="flex justify-center">
-              <button className=" m-1 w-20 rounded bg-red-500 p-1 text-white">
-                {t("delete")}
+              <button
+                className=" m-1 w-20 rounded bg-red-500 p-1 text-white"
+                onClick={handleClick}
+              >
+                {isLoading ? <>{t("deleting")}</> : <> {t("delete")}</>}
               </button>
             </div>
           </div>
