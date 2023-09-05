@@ -162,7 +162,7 @@ export default function Page() {
           {districtSuggestions.length > 0 && (
             <div
               ref={districtDropdownRef}
-              className="absolute mt-10 max-h-40 overflow-y-scroll rounded-b  border bg-white md:w-[100%] lg:w-96"
+              className="absolute mt-24 max-h-40 overflow-y-scroll rounded-b  border bg-white md:w-[100%] lg:w-96"
             >
               {districtSuggestions.map((suggestion, index) => (
                 <div
