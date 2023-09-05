@@ -135,7 +135,7 @@ export default function Page() {
           {suggestions.length > 0 && (
             <div
               ref={serviceDropdownRef}
-              className="absolute z-10 max-h-40 w-full overflow-y-scroll rounded-b border bg-white"
+              className="absolute z-10 mt-10 max-h-40 overflow-y-scroll rounded-b  border bg-white md:w-[100%] lg:w-96"
             >
               {suggestions.map((suggestion, index) => (
                 <div
@@ -162,7 +162,7 @@ export default function Page() {
           {districtSuggestions.length > 0 && (
             <div
               ref={districtDropdownRef}
-              className="absolute max-h-40 w-full overflow-y-scroll rounded-b border bg-white"
+              className="absolute mt-10 max-h-40 overflow-y-scroll rounded-b  border bg-white md:w-[100%] lg:w-96"
             >
               {districtSuggestions.map((suggestion, index) => (
                 <div
